@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions> 
+	
+	<definition
+		name="/front/order/essay/write"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/essay/order_essay_write.jsp" />
+	</definition>
+
+	<definition
+		name="/front/order/essay/review"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/essay/order_essay_review.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/essay/view"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/essay/order_essay_view.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/essay/confirm"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/essay/order_essay_confirm.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/essay/deadline_options"
+		template = "/WEB-INF/jsp/stm/com/program/front/order/essay/option_deadline.jsp" />
+		
+		<definition
+		name="/front/order/essay/readmaterial_options"
+		template = "/WEB-INF/jsp/stm/com/program/front/order/essay/option_readmaterial.jsp" />
+	
+	<definition
+		name="/back/order/essay/write"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/essay/order_essay_write.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/order/essay/view"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/essay/order_essay_view.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/order/essay/confirm"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/essay/order_essay_message.jsp" />
+	</definition>
+	
+</tiles-definitions>

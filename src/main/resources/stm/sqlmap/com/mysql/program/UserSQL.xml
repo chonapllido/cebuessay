@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.user.service.impl.UserDao">
+
+	<select id="getListCount" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS
+		<where>
+			VALID_FLAG = 1
+			AND POSITION_ID = 3
+			<if test="user_price != null and !isEmpty(user_price)">
+				AND USER_PRICE = #{user_price}
+			</if>
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getList" parameterType="User" resultType="User">
+		SELECT
+			TBL1.USER_ID
+			, TBL1.NAME
+			, TBL1.EMAIL
+			, TBL1.TELEPHONE
+			, TBL1.GENDER
+			, TBL1.COUNTRY
+			, SUBSTR(TBL1.DATE,1,10) AS DATE
+			, TBL1.USER_PRICE
+			, TBL1.BLACKLIST
+			, TBL1.VIRTUAL_MONEY
+			, TBL1.SALARY
+			, COUNT(TBL2.ORDER_ID) AS USER_TOTAL_ORDER
+			, SUM(TBL2.TOTAL_PAYMENT) AS USER_TOTAL_PAYMENT
+		FROM
+			TBLUSERS TBL1
+			LEFT JOIN TBLORDER TBL2 ON TBL1.USER_ID = TBL2.USER_ID
+		<where>
+			TBL1.VALID_FLAG = 1
+			AND TBL1.POSITION_ID = 3
+			<if test="user_price != null and !isEmpty(user_price)">
+				AND TBL1.USER_PRICE = #{user_price}
+			</if>
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND TBL1.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+		GROUP BY TBL1.USER_ID
+		ORDER BY 
+		<if test="user_total_order != null and !isEmpty(user_total_order)">
+			COUNT(TBL2.ORDER_ID) DESC,
+		</if>
+		TBL1.USER_ID ASC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="User" resultType="User">
+		SELECT
+			USER_ID
+			, NAME
+			, EMAIL
+			, POSITION_ID
+			, PASSWORD
+			, TELEPHONE
+			, GENDER
+			, COUNTRY
+			, SALARY
+			, USER_PRICE
+			, BLACKLIST
+		FROM
+			TBLUSERS
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="User" >
+		<selectKey keyProperty="user_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(USER_ID), 0) + 1 FROM TBLUSERS
+		</selectKey>
+		INSERT INTO TBLUSERS ( 
+			USER_ID
+			, POSITION_ID
+			, NAME
+			, EMAIL
+			, PASSWORD
+			, TELEPHONE
+			, GENDER
+			, COUNTRY
+			, DATE
+			, DATE_MODIFIED
+			, VALID_FLAG
+			, BLACKLIST
+			, ACTIVATION_KEY
+		) VALUES (
+			#{user_id}
+			, #{position_id}
+			, #{name}
+			, #{email}
+			, #{password}
+			, #{telephone}
+			, #{gender}
+			, #{country}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, 1
+			, 0
+			, ''
+		)
+	</insert>
+	
+	<update id="update" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="name != null">
+				, NAME = #{name}
+			</if>
+			<if test="email != null">
+				, EMAIL = #{email}
+			</if>
+			<if test="password != null">
+				, PASSWORD = #{password}
+			</if>
+			<if test="position_id != null">
+				, POSITION_ID = #{position_id}
+			</if>
+			<if test="telephone != null">
+				, TELEPHONE = #{telephone}
+			</if>
+			<if test="gender != null">
+				, GENDER = #{gender}
+			</if>
+			<if test="country != null">
+				, COUNTRY = #{country}
+			</if>
+			<if test="salary != null">
+				, SALARY = #{salary}
+			</if>
+		WHERE 
+			USER_ID = #{user_id}
+	</update>
+	
+	<update id="updateList" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			USER_PRICE = #{user_price}
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		WHERE
+			USER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateBlacklist" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, BLACKLIST = #{blacklist}
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</update>
+ 	
+ 	<update id="delete" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			VALID_FLAG = 0
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		WHERE
+			USER_ID = #{user_id}
+			<if test="email != null">
+			AND EMAIL = #{email}
+			</if>
+	</update>
+	
+	<update id="deleteList" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			VALID_FLAG = 0
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		WHERE
+			USER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<select id="getCustomerList" parameterType="User" resultType="User">
+		SELECT
+			*
+		FROM
+			TBLUSERS
+		<where>
+			VALID_FLAG = 1
+			AND POSITION_ID = 3
+			<if test="!isEmpty(search_email)">
+				AND EMAIL LIKE CONCAT('%', #{search_email}, '%')
+			</if>
+			<if test="!isEmpty(search_price)">
+				AND USER_PRICE = #{search_price}
+			</if>
+		</where>
+		ORDER BY
+			USER_ID ASC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+	
+	<select id="checkEmailDuplicate" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS 
+		<where>
+			EMAIL = #{email}
+			<if test="!isEmpty(user_id)">
+				AND USER_ID != #{user_id}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getLogin" parameterType="User" resultType="User">
+		SELECT
+			USER_ID
+			, NAME
+			, EMAIL
+			, POSITION_ID
+			, BLACKLIST
+			, USER_PRICE
+		FROM
+			TBLUSERS 
+		<where>
+			EMAIL = #{email}
+			AND PASSWORD = #{password}
+			AND VALID_FLAG = 1
+		</where>
+	</select>
+	
+	<select id="getPassword" parameterType="User" resultType="User">
+		SELECT
+			PASSWORD
+		FROM
+			TBLUSERS
+		<where>
+			EMAIL = #{email}
+			AND VALID_FLAG = 1
+		</where>
+			
+	</select>
+	
+	<select id="getUserVm" parameterType="User" resultType="User">
+		SELECT
+			VIRTUAL_MONEY
+		FROM
+			TBLUSERS
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</select>
+	
+	<update id="payVirtualMoney" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			VIRTUAL_MONEY = VIRTUAL_MONEY - #{virtual_money}
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		WHERE
+			USER_ID = #{user_id}
+	</update>
+	
+	<select id="getListOfficers" parameterType="User" resultType="User">
+		SELECT 
+			USER_ID
+			, NAME 
+			, EMAIL
+			, TELEPHONE
+			, SALARY
+		FROM
+			TBLUSERS
+		<where>
+			POSITION_ID=#{position_id}
+			AND VALID_FLAG=1
+		</where>
+	</select>
+	
+	<select id="getListAllCount" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS
+		<where>
+			POSITION_ID IN(2,3)
+			AND VALID_FLAG = 1
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where> 
+	</select>
+	
+	<select id="getListAll" parameterType="User" resultType="User">
+		SELECT
+			NAME
+			, EMAIL
+			, TELEPHONE
+			, GENDER
+			, COUNTRY
+			, TELEPHONE
+			, DATE
+		FROM
+			TBLUSERS
+		<where>
+			POSITION_ID IN(2,3)
+			AND VALID_FLAG = 1
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where> 
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+	
+	<select id="getListOfficersDetailCount" parameterType="User" resultType="int">
+		SELECT
+			COUNT(TBL1.USER_ID)
+		FROM
+			TBLUSERS TBL1
+			LEFT JOIN TBLPOSITIONTITLE TBL2 ON TBL1.POSITION_ID = TBL2.POSITION_ID
+		<where>
+			TBL1.VALID_FLAG = 1
+			AND TBL1.POSITION_ID IN(1,2)
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND TBL1.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getListOfficersDetail" parameterType="User" resultType="User">
+		SELECT
+			TBL1.USER_ID
+			, TBL1.NAME
+			, TBL1.EMAIL
+			, TBL1.TELEPHONE
+			, TBL1.GENDER
+			, TBL1.COUNTRY
+			, SUBSTR(TBL1.DATE,1,10) AS DATE
+			, TBL2.NAME as POSITION_ID
+		FROM
+			TBLUSERS TBL1
+			LEFT JOIN TBLPOSITIONTITLE TBL2 ON TBL1.POSITION_ID = TBL2.POSITION_ID
+		<where>
+			TBL1.VALID_FLAG = 1
+			AND TBL1.POSITION_ID IN(1,2)
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND TBL1.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+		ORDER BY
+			USER_ID ASC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+	
+	<update id="addVirtualMoney" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			VIRTUAL_MONEY = VIRTUAL_MONEY + #{virtual_money}
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</update>
+	
+	<update id="minusVirtualMoney" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			VIRTUAL_MONEY = VIRTUAL_MONEY - #{virtual_money}
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</update>
+	
+	<select id="getRegisterByDate" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS
+		<where>
+			LEFT(DATE,10) = #{date}
+		</where>
+	</select>
+	
+	<select id="getRegisterByMonth" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS
+		<where>
+			DATE_FORMAT(DATE,'%Y-%m') = #{date}
+		</where>
+	</select>
+	
+	<update id="updateSalary" parameterType="User">
+		UPDATE
+			TBLUSERS
+		SET
+			SALARY = #{salary}
+		<where>
+			USER_ID = #{user_id}
+		</where>
+	</update>
+	
+	<select id="getUserWithVmCount" parameterType="User" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLUSERS
+		<where>
+			VIRTUAL_MONEY > 0
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="getUserWithVm" parameterType="User" resultType="User">
+		SELECT
+			*
+		FROM
+			TBLUSERS
+		<where>
+			VIRTUAL_MONEY > 0
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		</where>
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+	
+	<select id="getRecentActiveUsers" parameterType="User" resultType="User">
+		SELECT 
+			USER_ID
+			, NAME 
+		FROM
+			TBLUSERS 
+		WHERE
+			USER_ID IN(
+				 SELECT 
+				 	DISTINCT(USER_ID)
+				 FROM 
+				 	TBLORDER
+				 WHERE 
+				 	START_DATE > DATE_SUB(NOW(), INTERVAL 3 MONTH) 
+				 	AND STATUS = 3
+				)
+	</select>
+	
+	
+</mapper>

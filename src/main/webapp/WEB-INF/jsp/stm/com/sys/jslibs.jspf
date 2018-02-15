@@ -1,0 +1,39 @@
+<%@ include file="taglibs.jspf"%>
+<jsp:useBean
+	id="now"
+	class="java.util.Date"
+/>
+<fmt:formatDate
+	var="yyyymmdd"
+	value="${now}"
+	pattern="yyyyMMdd"
+/>
+<fmt:formatDate
+	var="mtime"
+	value="${now}"
+/>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&language=en" type="text/javascript"></script>
+<script type="text/javascript" src="${js_src}/jquery-1.11.1.min.js"  charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/jquery-ui-1.11.2.custom/jquery-ui.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/common.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/support.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/stm/jquery.MultiFile.min.js"></script>
+<script type="text/javascript" src="${js_src}/stm/jquery_rainbow.js"></script>
+<script type="text/javascript" src="${js_src}/stm/front/front_controller.js"></script>
+<script type="text/javascript" src="${js_src}/stm/control/validation.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/stm/webeditor/tinymce/tinymce.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${js_src}/stm/webeditor/tinymce.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${configs.CONTEXT }/validator.do" charset="UTF-8"></script>
+<script type="text/javascript">
+	var context = '${configs.CONTEXT}';
+	var context_web = '${configs.CONTEXT_WEB}';
+	var img_src = '${img_src}';
+	var css_src = '${css_src}';
+	var js_src = '${js_src}';
+	var yyyymmdd = '${yyyymmdd}';
+	var mtime = ${now.time};
+	var date = new Date();
+	setInterval(function() {mtime ++; date.setTime(mtime);}, 1);
+	var language = '${language}';
+</script>

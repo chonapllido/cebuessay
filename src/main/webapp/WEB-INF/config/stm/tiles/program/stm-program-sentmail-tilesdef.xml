@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions> 
+	
+	<definition
+		name="/back/sentmail/list"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/sentmail/sentmail_list.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/sentmail/write"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/sentmail/sentmail_write.jsp" />
+	</definition>
+
+	<definition
+		name="/back/sentmail/view"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/sentmail/sentmail_view.jsp" />
+	</definition>
+	
+</tiles-definitions>

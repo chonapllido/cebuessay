@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.etorder.service.impl.EtOrderDao">
+
+	<select id="getListCount" parameterType="EtOrder" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM
+			ET_ORDER
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				WHERE AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+	</select>
+	
+	<select id="getList" parameterType="EtOrder" resultType="EtOrder">
+		SELECT 
+			* 
+		FROM
+			ET_ORDER
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				WHERE AND EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		ORDER BY END_DATE DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="EtOrder" resultType="EtOrder">
+		SELECT
+			ORDER_ID
+			, CE_ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, MANAGER_ID
+			, WRITER_ID
+			, SUBTOTAL
+			, DISCOUNT
+			, TOTAL_PAYMENT
+			, PAY_METHOD
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VIEW_TIME
+			, UPLOAD_TIME
+			, REFUNDED
+			, PAID_BUT_CANCELLED
+			, VALID_FLAG
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="EtOrder" >
+		<selectKey keyProperty="order_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ORDER_ID), 0) + 1 FROM ET_ORDER
+		</selectKey>
+		INSERT INTO TBLORDER ( 
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, TOTAL_PAYMENT
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VALID_FLAG
+			, DELETE_FLAG
+		) VALUES (
+			#{order_id}
+			, #{user_id}
+			, #{user_email}
+			, #{type_id}
+			, #{total_payment}
+			, #{days}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, 1
+			, 1
+			, 0
+		)
+	</insert>
+	
+	<update id="update" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ORDER_ID = #{order_id}
+	</update>
+	
+	<update id="delete" parameterType="EtOrder">
+		DELETE
+		FROM
+			ET_ORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+
+	<update id="deleteList" parameterType="EtOrder">
+		DELETE
+		FROM
+			ET_ORDER
+		WHERE
+			ET_ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateList" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			CE_ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+
+	<update id="updateStatus" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		<where>
+			CE_ORDER_ID = #{ce_order_id}
+		</where>
+	</update>
+	
+	<update id="cancelUnpaidOrder" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = 4 
+		<where>
+			STATUS = 1 
+			AND HOUR(TIMEDIFF(now(), START_DATE)) >= 12
+		</where>
+	</update>
+	
+	<update id="updateManager" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, MANAGER_ID = #{manager_id}
+		<where>
+			CE_ORDER_ID = #{ce_order_id}
+		</where>
+	</update>
+	
+	<update id="updateWriter" parameterType="EtOrder">
+		UPDATE
+			ET_ORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, WRITER_ID = #{writer_id}
+		<where>
+			CE_ORDER_ID = #{ce_order_id}
+		</where>
+	</update>
+</mapper>

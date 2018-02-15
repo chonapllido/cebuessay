@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.priceessay.service.impl.PriceEssayDao">
+
+	<select id="getListCount" parameterType="PriceEssay" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLPRICEESSAY 
+	</select>
+	
+	<select id="getList" parameterType="PriceEssay" resultType="PriceEssay">
+		SELECT
+			*
+		FROM
+			TBLPRICEESSAY
+		ORDER BY
+			PRICE_ID ASC
+	</select>
+
+	<select id="getView" parameterType="PriceEssay" resultType="PriceEssay">
+		SELECT
+			TITLE
+			, PAGE
+			, WORDS
+			, DAYS
+			, PRICE
+			, MAXPAGE
+			, SPECIAL
+			, CDATE
+		FROM
+			TBLPRICEESSAY
+		<where>
+			PRICE_ID = #{price_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="PriceEssay" >
+		<selectKey keyProperty="price_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(PRICE_ID), 0) + 1 FROM TBLPRICEESSAY
+		</selectKey>
+		INSERT INTO TBLPRICEESSAY ( 
+			PRICE_ID
+			, TITLE
+			, PAGE
+			, WORDS
+			, DAYS
+			, PRICE
+			, MAXPAGE
+			, SPECIAL
+			, CDATE
+			, UDATE
+		) VALUES (
+			#{price_id}
+			, #{title}
+			, #{page}
+			, #{words}
+			, #{days}
+			, #{price}
+			, #{maxpage}
+			, #{special}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+	
+	<update id="update" parameterType="PriceEssay">
+		UPDATE
+			TBLPRICEESSAY
+		SET
+			UDATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="title != null">
+				, TITLE = #{title}
+			</if>
+			<if test="page != null">
+				, PAGE = #{page}
+			</if>
+			<if test="words != null">
+				, WORDS = #{words}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="price != null">
+				, PRICE = #{price}
+			</if>
+			<if test="maxpage != null">
+				, MAXPAGE = #{maxpage}
+			</if>
+			<if test="special != null">
+				, SPECIAL = #{special}
+			</if>
+		WHERE 
+			PRICE_ID = #{price_id}
+	</update>
+	
+	<update id="delete" parameterType="PriceEssay">
+		DELETE
+		FROM
+			TBLPRICEESSAY
+		<where>
+			PRICE_ID = #{price_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="PriceEssay">
+		DELETE
+		FROM
+			TBLPRICEESSAY
+		WHERE
+			PRICE_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<select id="getMinimumDays" parameterType="PriceEssay" resultType="int">
+		SELECT
+			MIN(DAYS) AS DAYS
+		FROM
+			TBLPRICEESSAY
+	</select>
+	
+	<select id="getMaxDays" parameterType="PriceEssay" resultType="int">
+		SELECT
+			MAX(DAYS)
+		FROM 
+			TBLPRICEESSAY
+		WHERE
+			SPECIAL = #{special}
+	</select>
+	
+	<select id="getMinWords" parameterType="PriceEssay" resultType="int">
+		SELECT
+			WORDS
+		FROM
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = 0 AND DAYS = (SELECT MIN(DAYS) FROM TBLPRICEESSAY LIMIT 1)
+		</where>
+	</select>
+	
+	<select id="getMaxPage" parameterType="PriceEssay" resultType="int">
+		SELECT 
+			IFNULL(
+				(SELECT
+					IFNULL(MAXPAGE,0)
+				FROM
+					TBLPRICEESSAY
+				<where>
+					DAYS = #{days}
+				</where>
+				LIMIT 1)
+				, 0
+			)
+	</select>  
+	
+	<select id="getPriceSpecialByDays" parameterType="int" resultType="float">
+		SELECT 
+			PRICE
+		FROM 
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = 1
+			AND DAYS = #{days}
+		</where>
+	</select>
+	
+	<select id="getPriceByDays" parameterType="int" resultType="float">
+		SELECT 
+			PRICE
+		FROM 
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = 0
+			AND DAYS = #{days}
+		</where>
+	</select>
+	
+	<select id="getDefaultPrice" parameterType="PriceEssay" resultType="PriceEssay">
+		SELECT
+			DAYS
+			, PRICE
+		FROM
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = #{special}
+		</where>
+		ORDER BY DAYS DESC LIMIT 1
+	</select>
+	
+	<select id="getDefaultPriceByDays" parameterType="PriceEssay" resultType="String">
+		SELECT
+			PRICE
+		FROM 
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = #{special}
+			AND DAYS = #{days}
+		</where>
+	</select>
+	
+	<select id="getListByUser" parameterType="PriceEssay" resultType="PriceEssay">
+		SELECT
+			*
+		FROM
+			TBLPRICEESSAY
+		<where>
+			SPECIAL = #{special}
+		</where>
+		ORDER BY
+			DAYS ASC
+	</select>
+	
+	<update id="updateWords" parameterType="PriceEssay">
+		UPDATE
+			TBLPRICEESSAY
+		SET
+			WORDS = #{words}
+	</update>
+</mapper>

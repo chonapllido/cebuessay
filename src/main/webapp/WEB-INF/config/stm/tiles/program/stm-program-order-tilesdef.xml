@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions> 
+	
+	<definition
+		name="/front/order/write"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/order_write.jsp" />
+	</definition>
+
+	<definition
+		name="/front/order/review"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/order_paypal_review.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/order/list"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/order_list.jsp" />
+	</definition>
+	
+</tiles-definitions>

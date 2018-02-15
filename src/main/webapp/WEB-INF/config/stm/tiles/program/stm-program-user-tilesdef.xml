@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions> 
+	
+	<definition
+		name="/front/user/write"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/user_write.jsp" />
+	</definition>
+
+	<definition
+		name="/front/user/view"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/user_view.jsp" />
+	</definition>
+		
+	<definition
+		name="/front/user/idcheck"
+		template="/WEB-INF/jsp/stm/com/program/front/user/idcheck.jsp">
+	</definition>
+	
+	<definition
+		name="/front/user/forgot_password"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/forgot_password.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/user/forgot_password_msg"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/forgot_password_msg.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/user/mypage"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/mypage.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/user/tutorial"
+		extends="layout.front.popup">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/user/user_tutorial.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/list"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/user_list.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/officers/list"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/officers_list.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/officers/write"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/officers_write.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/register/figure"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/register_figure.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/register/graph"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/register_graph.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/writers/payment"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/writers_payment.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/writers/productivity"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/writers_productivity.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/user/virtualmoney"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/user/user_vm.jsp" />
+	</definition>
+</tiles-definitions>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+
+	<bean name="propertiesService"
+		class="egovframework.rte.fdl.property.impl.EgovPropertyServiceImpl"
+		destroy-method="destroy">
+		<property name="properties">
+			<map>
+				<entry key="is_real_server" value="false" />
+				<entry key="dev_ip" value="localhost;127.0.0.1;192.168.0.1;0:0:0:0:0:0:0:1" />
+				<entry key="domain" value="cebuessay.com" />
+				<entry key="charset" value="UTF-8" />
+				<entry key="context" value="" />
+				<entry key="context_web" value="" />
+				<entry key="img_src" value="/images" />
+				<entry key="css_src" value="/css" />
+				<entry key="js_src" value="/js" />
+				<entry key="format_date" value="yyyy.MM.dd" />
+				<entry key="format_datee" value="yyyy.MM.dd (E)" />
+				<entry key="format_datetime" value="yyyy.MM.dd HH:mm:ss" />
+				<entry key="format_dateetime" value="yyyy.MM.dd (E) HH:mm:ss" />
+				<entry key="format_time" value="HH:mm:ss" />
+				<entry key="format_timee" value="aa hh:mm" />
+				<entry key="super_admin_id" value="system" />
+				<entry key="page_unit" value="10" />
+				<entry key="page_size" value="10" />
+				<entry key="new_day" value="7" />
+				<entry key="root_path" value="" /> <!-- if empty then getRealPath() -->
+				<entry key="www_path" value="/www" />
+				<entry key="save_path" value="/../files" />
+				<entry key="temp_path" value="/../files/temp" />
+				<entry key="ui_path" value="/WEB-INF/tlds/html" />
+				<entry key="doc_path" value="/WEB-INF/doc" />
+				<entry key="content_path" value="/WEB-INF/content" />
+				<entry key="pageUnit" value="10" /> <!-- for egov -->
+				<entry key="pageSize" value="10" /> <!-- for egov -->
+			</map>
+		</property>
+	</bean>
+
+</beans>	

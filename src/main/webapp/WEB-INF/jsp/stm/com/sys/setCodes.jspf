@@ -1,0 +1,14 @@
+<%@ include file="taglibs.jspf"%>
+<%
+	request.setAttribute("cr", "\r");
+	request.setAttribute("lf", "\n");
+	request.setAttribute("crlf", "\n\r");
+	LoginCommand user = (LoginCommand)session.getAttribute("loginUser");
+	
+	request.setAttribute("user", user);
+
+%>
+<c:set var="url" value="${requestScope['javax.servlet.forward.request_uri']}" />
+<c:set var="img_src" value="${configs.CONTEXT_WEB}${configs.IMG_SRC}" />
+<c:set var="css_src" value="${configs.CONTEXT_WEB}${configs.CSS_SRC}" />
+<c:set var="js_src" value="${configs.CONTEXT_WEB}${configs.JS_SRC}" />

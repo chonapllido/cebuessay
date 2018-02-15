@@ -1,0 +1,4 @@
+<%@ include file="taglibs.jspf"%>
+<link rel="stylesheet" type="text/css" href="${js_src}/jquery-ui-1.11.2.custom/jquery-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="${css_src}/stm/front/style.css" />
+<link rel="stylesheet" type="text/css" href="${css_src}/stm/flexslider.css" />

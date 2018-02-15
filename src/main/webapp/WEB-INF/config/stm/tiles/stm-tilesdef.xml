@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<definition
+		name="layout.front.main"
+		template="/WEB-INF/jsp/stm/com/layout/front/layout_front_main.jsp">
+		<put-attribute
+			name="header"
+			value="/WEB-INF/jsp/stm/com/layout/front/header_front.jsp" />
+		<put-attribute
+			name="left"
+			value="/WEB-INF/jsp/stm/com/layout/front/left.jsp" />
+		<put-attribute
+			name="right"
+			value="/WEB-INF/jsp/stm/com/layout/front/right.jsp" />
+		<put-attribute
+			name="footer"
+			value="/WEB-INF/jsp/stm/com/layout/front/footer_front.jsp" />
+	</definition>
+
+	<definition
+		name="layout.front.sub"
+		templateExpression="/WEB-INF/jsp/stm/com/layout/front/layout_front_sub.jsp">
+		<put-attribute
+			name="total_order"
+			value="${total_orders}" />
+		<put-attribute
+			name="header"
+			value="/WEB-INF/jsp/stm/com/layout/front/header_front.jsp" />
+		<put-attribute
+			name="left"
+			value="/WEB-INF/jsp/stm/com/layout/front/left.jsp" />
+		<put-attribute 
+			name="right" 
+			value="/WEB-INF/jsp/stm/com/layout/front/right.jsp" />
+		<put-attribute
+			name="content"
+			value="/WEB-INF/jsp/stm/com/layout/layout_empty.jsp" />
+		<put-attribute
+			name="footer"
+			value="/WEB-INF/jsp/stm/com/layout/front/footer_front.jsp" />
+	</definition>
+
+	<definition
+		name="layout.back"
+		template="/WEB-INF/jsp/stm/com/layout/back/layout_back.jsp">
+		<put-attribute
+			name="title"
+			value="CebuEssay" />
+		<put-attribute
+			name="header"
+			value="/WEB-INF/jsp/stm/com/layout/back/header_back.jsp" />
+	</definition>
+
+	<definition
+		name="layout.back.sub"
+		template="/WEB-INF/jsp/stm/com/layout/back/layout_back_sub.jsp">
+		<put-attribute
+			name="title"
+			value="PSD KITCHEN" />
+		<put-attribute
+			name="header"
+			value="/WEB-INF/jsp/stm/com/layout/back/header_back.jsp" />
+		<put-attribute
+			name="content"
+			value="/WEB-INF/jsp/stm/com/layout/layout_empty.jsp" />
+		<put-attribute
+			name="left"
+			value="/WEB-INF/jsp/stm/com/layout/back/left_back.jsp" />
+		<put-attribute
+			name="navi"
+			value="/WEB-INF/jsp/stm/com/layout/back/navi_back.jsp" />
+		<put-attribute
+			name="footer"
+			value="/WEB-INF/jsp/stm/com/layout/back/footer_back.jsp" />
+	</definition>
+	
+	<definition
+		name="layout.empty"
+		template="/WEB-INF/jsp/stm/com/layout/layout_empty.jsp">
+	</definition>
+	
+	<definition
+		name="layout.front.popup"
+		template="/WEB-INF/jsp/stm/com/layout/front/layout_front_popup.jsp">
+	</definition>
+
+</tiles-definitions>

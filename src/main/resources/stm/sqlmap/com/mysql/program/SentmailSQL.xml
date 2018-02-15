@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.sentmail.service.impl.SentmailDao">
+
+	<select id="getListCount" parameterType="Sentmail" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLSENTMAIL 
+		<if test="!isEmpty(search_keyword)">
+			<if test="search_field == 'email'">
+			WHERE EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+			</if>
+		</if>
+	</select>
+	
+	<select id="getList" parameterType="Sentmail" resultType="Sentmail">
+		SELECT
+			ITEM_ID
+			, EMAIL
+			, NAME
+			, SUBJECT
+			, CONTENT
+			, ATTACHMENT
+			, DATE_FORMAT(DATE,'%Y-%m-%d') AS DATE
+		FROM
+			TBLSENTMAIL
+			<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'email'">
+				WHERE EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+				</if>
+			</if>
+		ORDER BY
+			ITEM_ID DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="Sentmail" resultType="Sentmail">
+		SELECT
+			ITEM_ID
+			, EMAIL
+			, NAME
+			, SUBJECT
+			, CONTENT
+			, ATTACHMENT
+			, DATE
+		FROM
+			TBLSENTMAIL
+		WHERE
+			ITEM_ID = #{item_id}
+	</select>
+	
+	<insert id="insert" parameterType="Sentmail" >
+		<selectKey keyProperty="item_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ITEM_ID), 0) + 1 FROM TBLSENTMAIL
+		</selectKey>
+		INSERT INTO TBLSENTMAIL ( 
+			ITEM_ID
+			, EMAIL
+			, NAME
+			, SUBJECT
+			, CONTENT
+			, ATTACHMENT
+			, DATE
+		) VALUES (
+			#{item_id}
+			, #{email}
+			, #{name}
+			, #{subject}
+			, #{content}
+			, #{attachment}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+	
+	<insert id="insertList" parameterType="Sentmail">
+		INSERT INTO TBLSENTMAIL(
+			ITEM_ID
+			, EMAIL
+			, NAME
+			, SUBJECT
+			, CONTENT
+			, ATTACHMENT
+			, DATE
+		) VALUES 
+		<foreach collection="id_checks" item="row" index="i" open="(" close=")" separator="),(">
+		 	(SELECT IFNULL(MAX(TBL1.ITEM_ID), 0) + 1 FROM (SELECT ITEM_ID FROM TBLSENTMAIL) AS TBL1)
+		 	, "${row}"
+		 	, (SELECT TBL2.NAME FROM (SELECT NAME, EMAIL FROM TBLUSERS) AS TBL2 WHERE TBL2.EMAIL = "${row}")
+		 	, #{subject}
+		 	, #{content}
+		 	, #{attachment}
+		 	, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		</foreach>
+	</insert>
+	
+	<update id="update" parameterType="Sentmail">
+		UPDATE
+			TBLSENTMAIL
+		SET
+			DATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="email != null">
+				, EMAIL = #{email}
+			</if>
+			<if test="name != null">
+				, NAME = #{name}
+			</if>
+			<if test="subject != null">
+				, SUBJECT = #{subject}
+			</if>
+			<if test="content != null">
+				, CONTENT = #{content}
+			</if>
+			<if test="attachment != null">
+				, ATTACHMENT = #{attachment}
+			</if>
+		WHERE 
+			ITEM_ID = #{item_id}
+	</update>
+	
+	<update id="delete" parameterType="Sentmail">
+		DELETE
+		FROM
+			TBLSENTMAIL
+		<where>
+			ITEM_ID = #{item_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="Sentmail">
+		DELETE
+		FROM
+			TBLSENTMAIL
+		WHERE
+			ITEM_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+</mapper>

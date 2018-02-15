@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.order.service.impl.OrderDao">
+
+	<select id="getListCount" parameterType="Order" resultType="int">
+		SELECT COUNT(*) FROM
+			(SELECT 
+				1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.USER_ID
+	            , ETBL1.RESULT
+	            , ETBL1.TOPIC
+				, ETBL2.NAME AS USER_NAME
+				, ETBL2.EMAIL AS USER_EMAIL
+				, ETBL2.BLACKLIST
+				, ETBL3.NAME AS MANAGER_ID
+				, ETBL4.NAME AS WRITER_ID
+				, ETBL5.NAME AS STATUS
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
+				LEFT JOIN TBLUSERS ETBL3 ON ETBL1.MANAGER_ID = ETBL3.USER_ID
+				LEFT JOIN TBLUSERS ETBL4 ON ETBL1.WRITER_ID = ETBL4.USER_ID
+				LEFT JOIN TBLSTATUS ETBL5 ON ETBL1.STATUS = ETBL5.STATUS_ID
+			WHERE
+				ETBL1.STATUS IN(1,2,5)
+				AND ETBL1.VALID_FLAG = 1
+        		<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND ETBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+        UNION ALL
+		 	SELECT 
+		 		2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.USER_ID
+	            , RTBL1.RESULT
+	            , RTBL1.TOPIC
+				, RTBL2.NAME AS USER_NAME
+				, RTBL2.EMAIL AS USER_EMAIL
+				, RTBL2.BLACKLIST
+				, RTBL3.NAME AS MANAGER_ID
+				, RTBL4.NAME AS WRITER_ID
+				, RTBL5.NAME AS STATUS  
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
+				LEFT JOIN TBLUSERS RTBL3 ON RTBL1.MANAGER_ID = RTBL3.USER_ID
+				LEFT JOIN TBLUSERS RTBL4 ON RTBL1.WRITER_ID = RTBL4.USER_ID
+				LEFT JOIN TBLSTATUS RTBL5 ON RTBL1.STATUS = RTBL5.STATUS_ID
+			WHERE
+				RTBL1.STATUS IN(1,2,5)
+				AND RTBL1.VALID_FLAG = 1
+				<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND RTBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+		) A
+		ORDER BY END_DATE ASC
+	</select>
+	
+	<select id="getList" parameterType="Order" resultType="Order">
+		SELECT * FROM
+			(SELECT 
+				1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.USER_ID
+	            , ETBL1.RESULT
+	            , ETBL1.TOPIC
+				, ETBL2.NAME AS USER_NAME
+				, ETBL2.EMAIL AS USER_EMAIL
+				, ETBL2.BLACKLIST
+				, ETBL3.NAME AS MANAGER_ID
+				, ETBL4.NAME AS WRITER_ID
+				, ETBL5.NAME AS STATUS
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
+				LEFT JOIN TBLUSERS ETBL3 ON ETBL1.MANAGER_ID = ETBL3.USER_ID
+				LEFT JOIN TBLUSERS ETBL4 ON ETBL1.WRITER_ID = ETBL4.USER_ID
+				LEFT JOIN TBLSTATUS ETBL5 ON ETBL1.STATUS = ETBL5.STATUS_ID
+			WHERE
+				ETBL1.STATUS IN(1,2,5)
+				AND ETBL1.VALID_FLAG = 1
+        		<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND ETBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+        UNION ALL
+		 	SELECT 
+		 		2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.USER_ID
+	            , RTBL1.RESULT
+	            , RTBL1.TOPIC
+				, RTBL2.NAME AS USER_NAME
+				, RTBL2.EMAIL AS USER_EMAIL
+				, RTBL2.BLACKLIST
+				, RTBL3.NAME AS MANAGER_ID
+				, RTBL4.NAME AS WRITER_ID
+				, RTBL5.NAME AS STATUS  
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
+				LEFT JOIN TBLUSERS RTBL3 ON RTBL1.MANAGER_ID = RTBL3.USER_ID
+				LEFT JOIN TBLUSERS RTBL4 ON RTBL1.WRITER_ID = RTBL4.USER_ID
+				LEFT JOIN TBLSTATUS RTBL5 ON RTBL1.STATUS = RTBL5.STATUS_ID
+			WHERE
+				RTBL1.STATUS IN(1,2,5)
+				AND RTBL1.VALID_FLAG = 1
+				<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND RTBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+		) A
+		ORDER BY END_DATE ASC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="Order" resultType="Order">
+		SELECT
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, MANAGER_ID
+			, WRITER_ID
+			, SUBTOTAL
+			, DISCOUNT
+			, TOTAL_PAYMENT
+			, PAY_METHOD
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VIEW_TIME
+			, UPLOAD_TIME
+			, REFUNDED
+			, PAID_BUT_CANCELLED
+			, VALID_FLAG
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="Order" >
+		<selectKey keyProperty="order_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ORDER_ID), 0) + 1 FROM TBLORDER
+		</selectKey>
+		INSERT INTO TBLORDER ( 
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, TOTAL_PAYMENT
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VALID_FLAG
+			, DELETE_FLAG
+		) VALUES (
+			#{order_id}
+			, #{user_id}
+			, #{user_email}
+			, #{type_id}
+			, #{total_payment}
+			, #{days}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, 1
+			, 1
+			, 0
+		)
+	</insert>
+	
+	<update id="update" parameterType="Order">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ORDER_ID = #{order_id}
+	</update>
+	
+	<update id="delete" parameterType="Order">
+		DELETE
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+
+	<update id="deleteList" parameterType="Order">
+		DELETE
+		FROM
+			TBLORDER
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateList" parameterType="Order">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<select id="getListByUserCount" parameterType="Order" resultType="int">
+		SELECT COUNT(*)
+		FROM(
+			SELECT 1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,1,10) as DATE
+				, SUBSTR(ETBL1.END_DATE,1,10) as END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.RESULT
+				, ETBL2.NAME AS WRITER_ID
+				, ETBL3.NAME AS STATUS
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.WRITER_ID = ETBL2.USER_ID
+				LEFT JOIN TBLSTATUS ETBL3 ON ETBL1.STATUS = ETBL3.STATUS_ID
+			WHERE
+				ETBL1.USER_ID = #{user_id}
+				AND ETBL1.VALID_FLAG = 1
+				AND ETBL1.DELETE_FLAG = 0
+			UNION ALL
+			SELECT 2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,1,10) as DATE
+				, SUBSTR(RTBL1.END_DATE,1,10) as END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.RESULT
+				, RTBL2.NAME AS WRITER_ID
+				, RTBL3.NAME AS STATUS
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.WRITER_ID = RTBL2.USER_ID
+				LEFT JOIN TBLSTATUS RTBL3 ON RTBL1.STATUS = RTBL3.STATUS_ID
+			WHERE
+				RTBL1.USER_ID = #{user_id}
+				AND RTBL1.VALID_FLAG = 1
+				AND RTBL1.DELETE_FLAG = 0
+		) A	
+		<if test="!isEmpty(search_keyword)">
+			<if test="search_field == 'order_id'">
+				WHERE ORDER_ID = #{search_keyword}
+			</if>
+		</if>
+		ORDER BY ORDER_ID DESC
+	</select>
+	<select id="getListByUser" parameterType="Order" resultType="Order">
+		SELECT *
+		FROM(
+			SELECT 1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,1,10) as DATE
+				, SUBSTR(ETBL1.END_DATE,1,10) as END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.RESULT
+				, ETBL2.NAME AS WRITER_ID
+				, ETBL3.NAME AS STATUS
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.WRITER_ID = ETBL2.USER_ID
+				LEFT JOIN TBLSTATUS ETBL3 ON ETBL1.STATUS = ETBL3.STATUS_ID
+			WHERE
+				ETBL1.USER_ID = #{user_id}
+				AND ETBL1.VALID_FLAG = 1
+				AND ETBL1.DELETE_FLAG = 0
+			UNION ALL
+			SELECT 2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,1,10) as DATE
+				, SUBSTR(RTBL1.END_DATE,1,10) as END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.RESULT
+				, RTBL2.NAME AS WRITER_ID
+				, RTBL3.NAME AS STATUS
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.WRITER_ID = RTBL2.USER_ID
+				LEFT JOIN TBLSTATUS RTBL3 ON RTBL1.STATUS = RTBL3.STATUS_ID
+			WHERE
+				RTBL1.USER_ID = #{user_id}
+				AND RTBL1.VALID_FLAG = 1
+				AND RTBL1.DELETE_FLAG = 0
+		) A	
+		<if test="!isEmpty(search_keyword)">
+			<if test="search_field == 'order_id'">
+				WHERE ORDER_ID = #{search_keyword}
+			</if>
+		</if>
+		ORDER BY ORDER_ID DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+ 
+	</select>
+	
+	<select id="getPendingTotalByMonth" parameterType="Order" resultType="Order">
+		SELECT 
+			SUM(T1.TOTAL_PAYMENT) AS TOTAL_PAYMENT
+			, MONTHNAME(T1.DATE) AS DATE
+		FROM 
+			TBLORDER T1
+		INNER JOIN 
+			TBLUSERS T2 ON T1.USER_ID = T2.USER_ID
+		WHERE
+			T1.STATUS IN(1,2,5) and T1.VALID_FLAG=1
+		<if test="!isEmpty(search_keyword)">
+			<if test="search_field == 'order_id'">
+				AND T1.ORDER_ID = #{search_keyword}
+			</if>
+			<if test="search_field == 'EMAIL'">
+				AND T2.EMAIL LIKE '%#{search_keyword}%'
+			</if>
+		</if>
+		GROUP BY MONTH(T1.DATE)
+	</select>
+	
+	<select id="isFirstOrder" parameterType="Order" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLORDER
+		WHERE
+			(USER_ID = #{user_id}
+			OR
+			USER_EMAIL = #{user_email})
+			AND STATUS != 4
+	</select>
+	
+	<update id="updateStatus" parameterType="Order">
+		UPDATE
+			TBLORDER
+		SET
+			STATUS = #{status}
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateManager" parameterType="Order">
+		UPDATE 
+			TBLORDER
+		SET
+			MANAGER_ID = #{manager_id}
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateWriter" parameterType="Order">
+		UPDATE 
+			TBLORDER
+		SET
+			WRITER_ID = #{writer_id}
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="cancelOrder" parameterType="Order">
+		UPDATE 
+			TBLORDER
+		SET
+			STATUS = 4
+			, PAID_BUT_CANCELLED = 1
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateDelete" parameterType="Order">
+		UPDATE
+			TBLORDER
+		SET
+			DELETE_FLAG = 1
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<select id="getTargetTimeToCancel" parameterType="Order" resultType="String">
+		SELECT 
+			IFNULL(DATE_ADD(DATE, INTERVAL 12 HOUR),'') as DATE 
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+			AND STATUS = 1
+		</where>
+	</select>
+	
+	<update id="cancelUnpaidOrder" parameterType="Order">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = 4 
+		<where>
+			STATUS = 1 
+			AND HOUR(TIMEDIFF(now(), DATE)) >= 12
+		</where>
+	</update>
+	
+	<select id="getWriterPayment" parameterType="Order" resultType="Order">
+		SELECT
+			WRITER_ID
+			, SUM(TOTAL_PAGES) AS SUBTOTAL 
+			, SUM(TOTAL_PAYMENT) AS TOTAL_PAYMENT
+		FROM(
+    		SELECT
+    			WRITER_ID
+    			, IFNULL(SUM(NO_PAGES),0) AS TOTAL_PAGES
+    			, IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL_PAYMENT
+    		FROM 
+    			TBLESSAY 
+    		WHERE 
+    			WRITER_ID = #{writer_id}
+    			AND STATUS = 3
+    			AND DATE(START_DATE) BETWEEN DATE(#{start_date}) AND DATE(LAST_DAY(#{end_date}))
+			UNION ALL
+			SELECT
+    			WRITER_ID
+    			, IFNULL(SUM(NO_PAGES),0) AS TOTAL_PAGES
+    			, IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL_PAYMENT
+    		FROM 
+    			TBLREVISION 
+    		WHERE 
+    			WRITER_ID = #{writer_id}
+    			AND STATUS = 3
+				AND DATE(START_DATE) BETWEEN DATE(#{start_date}) AND DATE(LAST_DAY(#{end_date}))
+  	 ) TBL
+	</select>
+	
+	<select id="getTotalBetweenDate" parameterType="Order" resultType="int">
+		SELECT 
+			IFNULL(SUM(TOTAL_PAYMENT),0) 
+		FROM
+			TBLORDER 
+		<where>
+			USER_ID = #{user_id}
+			AND STATUS = 3
+			AND DATE(DATE) BETWEEN DATE(#{start_date}) AND DATE(#{end_date})
+ 		</where> 
+	</select>
+	
+	<select id="getOrderUser" parameterType="Order" resultType="Order">
+		SELECT
+			USER_ID
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	
+	</select>
+</mapper>

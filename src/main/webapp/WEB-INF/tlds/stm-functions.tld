@@ -1,0 +1,888 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib
+	xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0"
+>
+
+	<description>STM TAG LIBRARY</description>
+	<display-name>STM Tag Library</display-name>
+	<tlib-version>1.2</tlib-version>
+	<jsp-version>1.2</jsp-version>
+	<short-name>stmfn</short-name>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Component : Button <button> Tag Type</b>
+			]]>
+		</description>
+		<name>button</name>
+		<tag-class>stm.com.support.taglib.ButtonTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> type<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Enumerated Values : </b><br/>
+						- submit<br/>
+						- button<br/>
+						- reset<br/>
+				]]>
+			</description>
+			<name>type</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> value<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> onclick<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> style<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> icontext<br/>
+					<b>Enumerated Values : </b><br/>
+						- icontext<br/>
+						- icon<br/>
+						- text<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> color<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> color1<br/>
+					<b>Enumerated Values : </b><br/>
+						- color1 : orange<br/>
+						- color2 : green<br/>
+						- color3 : gray<br/>
+						- color4 : white<br/>
+						- color5 : black<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>color</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> fontsize<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> 11<br/>
+					<b>Enumerated Values : </b><br/>
+						- 11<br/>
+						- 12<br/>
+						- 15<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>fontsize</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> className<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Note :</b> stylesheet class<br/>
+				]]>
+			</description>
+			<name>className</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permission<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> true<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permission</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permissionshow<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> false<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permissionshow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>STM Component : Button A Tag Type</description>
+		<name>abutton</name>
+		<tag-class>stm.com.support.taglib.AButtonTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> value<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> href<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>href</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> style<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> icontext<br/>
+					<b>Enumerated Values : </b><br/>
+						- icontext<br/>
+						- icon<br/>
+						- text<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> color<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> color1<br/>
+					<b>Enumerated Values : </b><br/>
+						- color1 : orange<br/>
+						- color2 : green<br/>
+						- color3 : gray<br/>
+						- color4 : white<br/>
+						- color5 : black<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>color</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> fontsize<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> 11<br/>
+					<b>Enumerated Values : </b><br/>
+						- 11<br/>
+						- 12<br/>
+						- 15<br/>
+					<b>Example : http://stmdev.cafe24.com/components/html/stm/</b><br/>
+				]]>
+			</description>
+			<name>fontsize</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> className<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Note :</b> stylesheet class<br/>
+				]]>
+			</description>
+			<name>className</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permission<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> true<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permission</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permissionshow<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> false<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permissionshow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Functions : Code</b>
+			]]>
+		</description>
+		<name>code</name>
+		<tag-class>stm.com.support.taglib.CodeTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> upcd<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>upcd</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> cd<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>cd</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Functions : Date</b>
+			]]>
+		</description>
+		<name>date</name>
+		<tag-class>stm.com.support.taglib.DateTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> format<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Example : </b><br/>
+						- yyyy-MM-dd HH:mm:ss (E)<br/>
+						- ${config.format_date}<br/>
+						- ${config.format_datee}<br/>
+						- ${config.format_datetime}<br/>
+						- ${config.format_dateetime}<br/>
+						- ${config.format_time}<br/> 
+				]]>
+			</description>
+			<name>format</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> value<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Example :</b> 20130417150000<br/>
+				]]>
+			</description>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Functions : New Icon</b>
+			]]>
+		</description>
+		<name>icon-new</name>
+		<tag-class>stm.com.support.taglib.NewsTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> datetime<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Example :</b> 20130417150000<br/>
+				]]>
+			</description>
+			<name>datetime</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> period<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>period</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Functions : Option</b>
+			]]>
+		</description>
+		<name>option</name>
+		<tag-class>stm.com.support.taglib.OptionTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> object<br/>
+					<b>Data Type :</b><br/>
+					- java.util.Map<br/>
+					- java.util.List<br/>
+					<b>Example :</b> ${codes.key}<br/>
+				]]>
+			</description>
+			<name>object</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> select<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>select</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> exception<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Example :</b> data1;data2;data3<br/>
+				]]>
+			</description>
+			<name>exception</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Functions : CheckBox</b>
+			]]>
+		</description>
+		<name>checkbox</name>
+		<tag-class>stm.com.support.taglib.CheckboxTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> value<br/>
+					<b>Data Type :</b><br/>
+					- String<br/>
+					- java.util.Map<br/>
+					- java.util.List<br/>
+					<b>String Example :</b> data1;data2;data3<br/>
+					<b>Object Example :</b> ${codes.key}<br/>
+					<b>Note :</b><br/>
+					If this value is specified for not String type<br/>
+					- name attribute value = code key (If do not specify [name] attribute)<br/>
+					- id attribute value = code key<br/>
+					- value attribute value = code value<br/>
+					- checked attribute are ignored<br/>
+				]]>
+			</description>
+			<name>value</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> name<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> id<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> onclick<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>onclick</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> label<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>label</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> value<br/>
+					<b>Data Type :</b><br/>
+					- String<br/>
+					- java.util.Map<br/>
+					- java.util.List<br/>
+					<b>String Example :</b> data1;data2;data3<br/>
+					<b>Note :</b><br/>
+					If [code] value is specified for not String type<br/>
+					- name attribute value = code key (If do not specify [name] attribute)<br/>
+					- id attribute value = code key<br/>
+					- value attribute value = code value<br/>
+				]]>
+			</description>
+			<name>check</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.Object</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> checked<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> false<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>checked</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> disabled<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> false<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>disabled</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> exception<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Example :</b> data1;data2;data3<br/>
+					<b>Note :</b><br/>
+					If [code] value is specified for not String type<br/>
+					- name attribute value = code key (If do not specify [name] attribute)<br/>
+					- id attribute value = code key<br/>
+					- value attribute value = code value<br/>
+				]]>
+			</description>
+			<name>exception</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> style<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>style</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> className<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Note :</b> stylesheet class<br/>
+				]]>
+			</description>
+			<name>className</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permission<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> true<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permission</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> permissionshow<br/>
+					<b>Data Type :</b> String<br/>
+					<b>Default Value :</b> false<br/>
+					<b>Enumerated Values : </b><br/>
+						- true<br/>
+						- false<br/>
+				]]>
+			</description>
+			<name>permissionshow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			<![CDATA[
+				<b>STM Component : Paging1</b>
+			]]>
+		</description>
+		<name>paging1</name>
+		<tag-class>stm.com.support.taglib.Paging1Tag</tag-class>
+		<body-content>empty</body-content>
+	</tag>
+
+	<tag>
+		<description>
+			<![CDATA[
+				<b>Language message bundle</b>
+			]]>
+		</description>
+		<name>msg</name>
+		<tag-class>stm.com.support.taglib.MessageTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> key<br/>
+					<b>Data Type :</b> String<br/>
+				]]>
+			</description>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.lang.String</type>
+		</attribute>
+		<attribute>
+			<description>
+				<![CDATA[
+					<b>Attribute :</b> locale<br/>
+					<b>Data Type :</b> java.util.Locale<br/>
+				]]>
+			</description>
+			<name>locale</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.Locale</type>
+		</attribute>
+	</tag>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>QueryString<br/>
+			]]>
+		</description>
+		<name>params</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getQueryString(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:params(string)}">
+    	</example>
+	</function>
+
+	<function>
+		<description>
+			<![CDATA[
+				<b>Code<br/>
+			]]>
+		</description>
+		<name>code</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getCode(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:code(string, string)}">
+    	</example>
+	</function>
+
+	<function>
+		<description>
+			<![CDATA[
+				<b>Code List<br/>
+			]]>
+		</description>
+		<name>codes</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getCodes(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:codes(string)}">
+    	</example>
+	</function>
+
+	<function>
+		<description>
+			<![CDATA[
+				<b>Is New?<br/>
+			]]>
+		</description>
+		<name>new</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>boolean isNew(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			&lt;c:if test="${stmfn:new(string, string)}">...&lt;/c:if>
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>Language message bundle</b>
+			]]>
+		</description>
+		<name>msg</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getMessage(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:msg(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>Content wrap</b>
+			]]>
+		</description>
+		<name>wrap</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getWrap(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:wrap(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>QueryString to jQuery params</b>
+			]]>
+		</description>
+		<name>jqueryParams</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getJQueryParams(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:jqueryParams(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>Clean HTML Tags</b>
+			]]>
+		</description>
+		<name>cleanHTML</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getCleanHTML(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:cleanHTML(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>DES Encrypt</b>
+			]]>
+		</description>
+		<name>encrypt</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getEncrypt(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:encrypt(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>DES Decrypt</b>
+			]]>
+		</description>
+		<name>decrypt</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getDecrypt(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:decrypt(string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>extIcon</b>
+			]]>
+		</description>
+		<name>extIcon</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getExtIcon(java.lang.String, java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:extIcon(string, string)}">
+    	</example>
+	</function>
+	
+	<function>
+		<description>
+			<![CDATA[
+				<b>getCleanJSON</b>
+			]]>
+		</description>
+		<name>getCleanJSON</name>
+		<function-class>stm.com.support.util.Functions</function-class>
+		<function-signature>String getCleanJSON(java.lang.String)</function-signature>
+		<example>
+			&lt;c:out value="${stmfn:getCleanJSON(string)}">
+    	</example>
+	</function>
+	
+</taglib>    

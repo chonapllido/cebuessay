@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.writingformat.service.impl.WritingFormatDao">
+
+	<select id="getListCount" parameterType="WritingFormat" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLESSAYFORMAT 
+	</select>
+	
+	<select id="getList" parameterType="WritingFormat" resultType="WritingFormat">
+		SELECT
+			*
+		FROM
+			TBLESSAYFORMAT
+		ORDER BY
+			FORMAT_ID ASC
+	</select>
+
+	<select id="getView" parameterType="WritingFormat" resultType="WritingFormat">
+		SELECT
+			TITLE
+			, CDATE
+		FROM
+			TBLESSAYFORMAT
+		<where>
+			FORMAT_ID = #{format_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="WritingFormat" >
+		<selectKey keyProperty="format_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(FORMAT_ID), 0) + 1 FROM TBLESSAYFORMAT
+		</selectKey>
+		INSERT INTO TBLESSAYFORMAT ( 
+			FORMAT_ID
+			, TITLE
+			, CDATE
+			, UDATE
+		) VALUES (
+			#{format_id}
+			, #{title}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+	
+	<update id="update" parameterType="WritingFormat">
+		UPDATE
+			TBLESSAYFORMAT
+		SET
+			UDATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="title != null">
+				, TITLE = #{title}
+			</if>
+		WHERE 
+			FORMAT_ID = #{format_id}
+	</update>
+	
+	<update id="delete" parameterType="WritingFormat">
+		DELETE
+		FROM
+			TBLESSAYFORMAT
+		<where>
+			FORMAT_ID = #{format_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="WritingFormat">
+		DELETE
+		FROM
+			TBLESSAYFORMAT
+		WHERE
+			FORMAT_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+</mapper>

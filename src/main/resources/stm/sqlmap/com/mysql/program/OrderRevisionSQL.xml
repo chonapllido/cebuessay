@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.order.revision.service.impl.OrderRevisionDao">
+
+	<select id="getListCount" parameterType="OrderRevision" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLREVISION
+		<where>
+			VALID_FLAG = 1 
+		</where>
+			
+	</select>
+	
+	<select id="getList" parameterType="OrderRevision" resultType="OrderRevision">
+		SELECT
+			*
+		FROM
+			TBLREVISION
+		<where>
+			VALID_FLAG = 1 
+		</where>
+		ORDER BY REVISION_ID DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="OrderRevision" resultType="OrderRevision">
+		SELECT
+			REVISION_ID
+			, ORDER_ID
+			, USER_ID
+			, MANAGER_ID
+			, WRITER_ID
+			, TOPIC
+			, NO_PAGES
+			, PAY_METHOD
+			, FILE
+			, FILE_UPLOAD
+			, FILE_UPLOAD_TMP
+			, STATUS
+			, TOTAL_PAYMENT
+			, DAYS
+			, START_DATE
+			, END_DATE
+			, RESULT
+			, LEVEL
+		FROM
+			TBLREVISION
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="OrderRevision" >
+		<selectKey keyProperty="revision_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(REVISION_ID), 0) + 1 FROM TBLREVISION
+		</selectKey>
+		INSERT INTO TBLREVISION ( 
+			REVISION_ID
+			, ORDER_ID
+			, USER_ID
+			, TOPIC
+			, LEVEL
+			, NO_PAGES
+			, FILE
+			, FILE_UPLOAD
+			, FILE_UPLOAD_TMP
+			, TOTAL_PAYMENT
+			, DAYS
+			, START_DATE
+			, END_DATE
+			, STATUS			
+			, VALID_FLAG
+		) VALUES (
+			#{revision_id}
+			, #{order_id}
+			, #{user_id}
+			, #{topic}
+			, #{level}
+			, #{no_pages}
+			, #{file}
+			, #{file_upload}
+			, #{file_upload_tmp}
+			, #{total_payment}
+			, #{days}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, 1
+			, 1
+		)
+	</insert>
+	
+	<update id="update" parameterType="OrderRevision">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="topic != null">
+				, TOPIC = #{topic}
+			</if>
+			<if test="level != null">
+				, LEVEL = #{level}
+			</if>
+			<if test="no_pages != null">
+				, NO_PAGES = #{no_pages}
+			</if>
+			<if test="file != null">
+				, FILE = #{file}
+			</if>
+			<if test="file_upload != null">
+				, FILE_UPLOAD = #{file_upload}
+			</if>
+			<if test="file_upload_tmp != null">
+				, FILE_UPLOAD_TMP = #{file_upload_tmp}
+			</if>
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ORDER_ID = #{order_id}
+	</update>
+	
+	<update id="delete" parameterType="OrderRevision">
+		DELETE
+		FROM
+			TBLREVISION
+		<where>
+			REVISION_ID = #{revision_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="OrderRevision">
+		DELETE
+		FROM
+			TBLREVISION
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateList" parameterType="OrderRevision">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateStatus" parameterType="OrderRevision">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateManager" parameterType="OrderRevision">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, MANAGER_ID = #{manager_id}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateWriter" parameterType="OrderRevision">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, WRITER_ID = #{writer_id}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateResult" parameterType="OrderEssay">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, RESULT = #{result}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateDelete" parameterType="Order">
+		UPDATE
+			TBLREVISION
+		SET
+			DELETE_FLAG = 1
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="cancelUnpaidOrder" parameterType="Order">
+		UPDATE
+			TBLREVISION
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = 4 
+		<where>
+			STATUS = 1 
+			AND HOUR(TIMEDIFF(now(), START_DATE)) >= 12
+		</where>
+	</update>
+</mapper>

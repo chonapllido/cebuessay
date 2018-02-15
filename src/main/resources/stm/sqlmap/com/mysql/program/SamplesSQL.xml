@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.samples.service.impl.SamplesDao">
+
+	<select id="getListCount" parameterType="Samples" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLSAMPLE
+	</select>
+	
+	<select id="getList" parameterType="Samples" resultType="Samples">
+		SELECT
+			*
+		FROM
+			TBLSAMPLE
+		ORDER BY
+			SAMPLE_ID ASC
+	</select>
+
+	<select id="getListByType" parameterType="Samples" resultType="Samples">
+		SELECT
+			*
+		FROM
+			TBLSAMPLE
+		<where>
+			TYPE = #{type}
+		</where>
+		ORDER BY SAMPLE_ID ASC
+	</select>
+	
+	<select id="getView" parameterType="Samples" resultType="Samples">
+		SELECT
+			SAMPLE_ID
+			, TYPE
+			, TITLE
+			, FILE
+			, FILE_TYPE
+		FROM
+			TBLSAMPLE
+	</select>
+	
+	<insert id="insert" parameterType="Samples" >
+		<selectKey keyProperty="sample_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(SAMPLE_ID), 0) + 1 FROM TBLSAMPLE
+		</selectKey>
+		INSERT INTO TBLSAMPLE ( 
+			SAMPLE_ID
+			, TYPE
+			, TITLE
+			, FILE
+			, FILE_TYPE
+			, CDATE
+			, UDATE
+		) VALUES (
+			#{sample_id}
+			, #{type}
+			, #{title}
+			, #{file}
+			, #{file_type}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+	
+	<update id="update" parameterType="Samples">
+		UPDATE
+			TBLSAMPLE
+		SET
+			UDATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="type != null">
+				, TYPE = #{type}
+			</if>
+			<if test="title != null">
+				, TITLE = #{title}
+			</if>
+			<if test="file != null">
+				, FILE = #{file}
+			</if>
+			<if test="file_type != null">
+				, FILE_TYPE = #{file_type}
+			</if>
+		WHERE 
+			SAMPLE_ID = #{sample_id}
+	</update>
+	
+	<update id="delete" parameterType="Samples">
+		DELETE
+		FROM
+			TBLSAMPLE
+		<where>
+			SAMPLE_ID = #{sample_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="Samples">
+		DELETE
+		FROM
+			TBLSAMPLE
+		WHERE
+			SAMPLE_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+</mapper>

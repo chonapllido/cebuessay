@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.sales.service.impl.SalesDao">
+
+	<select id="getListCount" parameterType="Sales" resultType="int">
+		SELECT 
+			COUNT(*) 
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+		</where>	
+	</select>
+	
+	<select id="getList" parameterType="Sales" resultType="Sales">
+		SELECT
+			*
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+		</where>
+	</select>
+
+	<select id="getView" parameterType="Sales" resultType="Sales">
+		SELECT
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, MANAGER_ID
+			, WRITER_ID
+			, SUBTOTAL
+			, DISCOUNT
+			, TOTAL_PAYMENT
+			, PAY_METHOD
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VIEW_TIME
+			, UPLOAD_TIME
+			, REFUNDED
+			, PAID_BUT_CANCELLED
+			, VALID_FLAG
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="Sales" >
+		<selectKey keyProperty="order_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ORDER_ID), 0) + 1 FROM TBLORDER
+		</selectKey>
+		INSERT INTO TBLORDER ( 
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, TOTAL_PAYMENT
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VALID_FLAG
+			, DELETE_FLAG
+		) VALUES (
+			#{order_id}
+			, #{user_id}
+			, #{user_email}
+			, #{type_id}
+			, #{total_payment}
+			, #{days}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, 1
+			, 1
+			, 0
+		)
+	</insert>
+	
+	<update id="update" parameterType="Sales">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ORDER_ID = #{order_id}
+	</update>
+	
+	<update id="delete" parameterType="Sales">
+		DELETE
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="Sales">
+		DELETE
+		FROM
+			TBLORDER
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+
+	<update id="updateList" parameterType="Sales">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<select id="getSalesByDate" parameterType="Sales" resultType="Sales">
+		SELECT
+			TOTAL_PAYMENT
+			, REFUNDED
+		FROM
+			TBLORDER
+		<where>
+			LEFT(DATE,10) = #{date}
+			AND STATUS = 3
+		</where>
+	</select>
+	
+	<select id="getTotalOrdersByMonth" parameterType="Sales" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLORDER
+		<where>
+			DATE_FORMAT(DATE,'%Y-%m') = #{date}
+			AND STATUS = 3
+			AND VALID_FLAG = 1
+		</where>
+	</select>
+	
+	<select id="getTotalPagesByMonth" parameterType="Sales" resultType="int">
+		SELECT
+			IFNULL(SUM(TBL.NO_PAGES),0)
+		FROM
+			(
+			SELECT NO_PAGES FROM TBLESSAY WHERE STATUS=3 AND VALID_FLAG=1 AND DATE_FORMAT(START_DATE,'%Y-%m') = #{date}
+			UNION ALL
+			SELECT NO_PAGES FROM TBLREVISION WHERE STATUS=3 AND VALID_FLAG=1 AND DATE_FORMAT(START_DATE,'%Y-%m') = #{date}
+			) TBL
+	</select>
+	
+	<select id="getTotalOrderAmount" parameterType="Sales" resultType="float">
+		SELECT
+			IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DATE_FORMAT(DATE,'%Y-%m') = #{date}
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalMonthly" parameterType="Sales" resultType="float">
+		SELECT
+			IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DATE_FORMAT(DATE,'%Y-%m') = #{date}
+			AND REFUNDED = #{refunded}
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getPagesByMonth" parameterType="Sales" resultType="int">
+		SELECT
+			IFNULL(SUM(PAGES),0) AS TOTAL
+		FROM
+			(SELECT
+				IFNULL(SUM(NO_PAGES),0) AS PAGES 
+			 FROM 
+			 	TBLESSAY
+			 WHERE
+			 	STATUS=3 
+			 	AND VALID_FLAG = 1
+			 	AND DATE_FORMAT(START_DATE,'%Y-%m') = #{date}
+				<if test='!isEmpty(search_keyword)'>
+					<if test="search_field == 'email'">
+					AND USER_EMAIL = #{user_email}
+					</if>
+				</if>
+		UNION ALL
+			SELECT
+				IFNULL(SUM(NO_PAGES),0) AS PAGES
+			 FROM 
+			 	TBLREVISION
+			 WHERE
+			 	STATUS=3 
+			 	AND VALID_FLAG = 1
+			 	AND DATE_FORMAT(START_DATE,'%Y-%m') = #{date}
+				<if test='!isEmpty(search_keyword)'>
+					<if test="search_field == 'email'">
+					AND USER_EMAIL = #{user_email}
+					</if>
+				</if>
+			)TBL
+			
+	</select>
+	<select id="getTotalOrderByPages" parameterType="Sales" resultType="int">
+		SELECT
+			(SELECT
+				COUNT(*) AS TOTAL 
+			 FROM 
+			 	TBLESSAY
+			 WHERE
+			 	STATUS=3 
+			 	AND VALID_FLAG = 1
+			 	AND NO_PAGES = #{no_pages}
+			 	AND DATE_FORMAT(START_DATE,'%Y') = #{date}
+				<if test='!isEmpty(search_keyword)'>
+					<if test="search_field == 'email'">
+					AND USER_EMAIL = #{user_email}
+					</if>
+				</if>
+			) + 
+			(SELECT
+				COUNT(*) AS TOTAL
+			 FROM 
+			 	TBLREVISION
+			 WHERE
+			 	STATUS=3 
+			 	AND VALID_FLAG = 1
+			 	AND NO_PAGES = #{no_pages}
+			 	AND DATE_FORMAT(START_DATE,'%Y') = #{date}
+				<if test='!isEmpty(search_keyword)'>
+					<if test="search_field == 'email'">
+					AND USER_EMAIL = #{user_email}
+					</if>
+				</if>
+			)
+		AS TOTAL
+			
+	</select>
+	<select id="getTotalOrderByDeadline" parameterType="Sales" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DAYS = #{days}
+			AND DATE_FORMAT(DATE,'%Y') = #{date}
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+	<select id="getTotalOrderAmountByYear" parameterType="Sales" resultType="float">
+		SELECT
+			IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DATE_FORMAT(DATE,'%Y') = #{date}
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalCashByYear" parameterType="Sales" resultType="float">
+		SELECT
+			IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DATE_FORMAT(DATE,'%Y') = #{date}
+			AND REFUNDED = 0
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getTotalVmByYear" parameterType="Sales" resultType="float">
+		SELECT
+			IFNULL(SUM(TOTAL_PAYMENT),0) AS TOTAL
+		FROM
+			TBLORDER
+		<where>
+			STATUS = 3
+			AND VALID_FLAG = 1
+			AND DATE_FORMAT(DATE,'%Y') = #{date}
+			AND REFUNDED = 1
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_EMAIL = #{user_email}
+				</if>
+			</if>
+		</where>
+	</select>
+</mapper>

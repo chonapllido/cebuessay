@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions> 
+	
+	<definition
+		name="/front/order/revision/write"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/revision/order_revision_write.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/revision/review"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/revision/order_revision_review.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/revision/view"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/revision/order_revision_view.jsp" />
+	</definition>
+	
+	<definition
+		name="/front/order/revision/confirm"
+		extends="layout.front.sub">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/front/order/revision/order_revision_confirm.jsp" />
+	</definition>
+
+	<definition
+		name="/back/order/revision/view"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/revision/order_revision_view.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/order/revision/write"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/revision/order_revision_write.jsp" />
+	</definition>
+	
+	<definition
+		name="/back/order/revision/confirm"
+		extends="layout.back">
+		<put-attribute
+			name="content"
+			expression="/WEB-INF/jsp/stm/com/program/back/order/revision/order_revision_confirm.jsp" />
+	</definition>
+</tiles-definitions>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<!-- 빈 화면 -->
+	<definition
+		name="support.empty"
+		template="/WEB-INF/jsp/stm/com/support/empty.jsp">
+	</definition>
+
+	<!-- 각종 후 처리 -->
+	<definition
+		name="support.callback"
+		template="/WEB-INF/jsp/stm/com/support/callback.jsp">
+	</definition>
+
+</tiles-definitions>

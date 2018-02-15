@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.virtualmoneylogs.service.impl.VirtualMoneyLogsDao">
+
+	<select id="getListCount" parameterType="Vmlog" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLVIRTUALMONEYLOGS 
+	</select>
+	
+	<select id="getList" parameterType="Vmlog" resultType="Vmlog">
+		SELECT
+			*
+		FROM
+			TBLVIRTUALMONEYLOGS
+		ORDER BY
+			DATE_PERFORMED DESC
+	</select>
+
+	<select id="getView" parameterType="Vmlog" resultType="Vmlog">
+		SELECT
+			USER_ID
+			, USER_NAME
+			, DATE_FROM
+			, DATE_END
+			, DATE_PERFORMED
+		FROM
+			TBLVIRTUALMONEYLOGS
+		<where>
+			LOG_ID = #{log_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="Vmlog" >
+		<selectKey keyProperty="log_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(LOG_ID), 0) + 1 FROM TBLVIRTUALMONEYLOGS
+		</selectKey>
+		INSERT INTO TBLVIRTUALMONEYLOGS ( 
+			LOG_ID
+			, USER_ID
+			, USER_NAME
+			, DATE_FROM
+			, DATE_END
+			, DATE_PERFORMED
+		) VALUES (
+			#{log_id}
+			, #{user_id}
+			, #{user_name}
+			, #{date_from}
+			, #{date_end}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
+		)
+	</insert>
+	
+	<update id="update" parameterType="Vmlog">
+		UPDATE
+			TBLVIRTUALMONEYLOGS
+		SET
+			DATE_PERFORMED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d')
+			<if test="user_id != null">
+				, USER_ID = #{user_id}
+			</if>
+			<if test="user_name != null">
+				, USER_NAME = #{user_id}
+			</if>
+			<if test="date_from != null">
+				, DATE_FROM = #{date_from}
+			</if>
+			<if test="date_end != null">
+				, DATE_END = #{date_end}
+			</if>
+			<if test="date_peformed != null">
+				, DATE_PERFORMED = #{date_performed}
+			</if>
+		WHERE 
+			LOG_ID = #{log_id}
+	</update>
+	
+	<update id="delete" parameterType="Vmlog">
+		DELETE
+		FROM
+			TBLVIRTUALMONEYLOGS
+		<where>
+			LOG_ID = #{log_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="Vmlog">
+		DELETE
+		FROM
+			TBLVIRTUALMONEYLOGS
+		WHERE
+			LOG_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+</mapper>

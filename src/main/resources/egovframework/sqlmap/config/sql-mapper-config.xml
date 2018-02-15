@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting
+			name="cacheEnabled"
+			value="false" />
+		<setting
+			name="useGeneratedKeys"
+			value="true" />
+		<setting
+			name="defaultExecutorType"
+			value="REUSE" />
+	</settings>
+
+	<typeAliases>
+		<!-- Add Alias  -->
+		<typeAlias
+			type="stm.com.program.user.web.UserCommand"
+			alias="User" />
+		<typeAlias
+			type="stm.com.program.order.web.OrderCommand"
+			alias="Order" />
+		<typeAlias
+			type="stm.com.program.order.essay.web.OrderEssayCommand"
+			alias="OrderEssay" />
+		<typeAlias
+			type="stm.com.program.order.revision.web.OrderRevisionCommand"
+			alias="OrderRevision" />
+		<typeAlias
+			type="stm.com.program.category.web.CategoryCommand"
+			alias="Category" />
+		<typeAlias
+			type="stm.com.program.priceessay.web.PriceEssayCommand"
+			alias="PriceEssay" />
+		<typeAlias
+			type="stm.com.program.pricerevision.web.PriceRevisionCommand"
+			alias="PriceRevision" />
+		<typeAlias
+			type="stm.com.program.priceresearch.web.PriceResearchCommand"
+			alias="PriceResearch" />
+		<typeAlias
+			type="stm.com.program.writingformat.web.WritingFormatCommand"
+			alias="WritingFormat" />
+		<typeAlias
+			type="stm.com.program.level.web.LevelCommand"
+			alias="Level" />
+		<typeAlias
+			type="stm.com.program.readmaterial.web.ReadMaterialCommand"
+			alias="ReadMaterial" />
+		<typeAlias
+			type="stm.com.program.ordcomplete.web.OrderCompleteCommand"
+			alias="OrderComplete" />
+		<typeAlias
+			type="stm.com.program.ordunconfirm.web.OrderUnconfirmCommand"
+			alias="OrderUnconfirm" />
+		<typeAlias
+			type="stm.com.program.samples.web.SamplesCommand"
+			alias="Samples" />
+		<typeAlias
+			type="stm.com.program.sales.web.SalesCommand"
+			alias="Sales" />
+		<typeAlias
+			type="stm.com.program.virtualmoneylogs.web.VirtualMoneyLogsCommand"
+			alias="Vmlog" />
+		<typeAlias
+			type="stm.com.program.sentmail.web.SentmailCommand"
+			alias="Sentmail" />
+		<typeAlias
+			type="stm.com.program.essaytype.web.EssaytypeCommand"
+			alias="Essaytype" />
+		<typeAlias
+			type="stm.com.program.etorder.web.EtOrderCommand"
+			alias="EtOrder" />
+	</typeAliases>
+</configuration>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.level.service.impl.LevelDao">
+
+	<select id="getListCount" parameterType="Level" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLLEVEL 
+	</select>
+	
+	<select id="getList" parameterType="Level" resultType="Level">
+		SELECT
+			*
+		FROM
+			TBLLEVEL
+		ORDER BY
+			TITLE ASC
+	</select>
+
+	<select id="getView" parameterType="Level" resultType="Level">
+		SELECT
+			LEVEL_ID
+			, TITLE
+		FROM
+			TBLLEVEL
+		<where>
+			LEVEL_ID = #{level_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="Level" >
+		<selectKey keyProperty="level_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(LEVEL_ID), 0) + 1 FROM TBLLEVEL
+		</selectKey>
+		INSERT INTO TBLLEVEL ( 
+			LEVEL_ID
+			, TITLE
+			, CDATE
+			, UDATE
+		) VALUES (
+			#{level_id}
+			, #{title}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		)
+	</insert>
+	
+	<update id="update" parameterType="Level">
+		UPDATE
+			TBLLEVEL
+		SET
+			UDATE = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="title != null">
+				, TITLE = #{title}
+			</if>
+		WHERE 
+			LEVEL_ID = #{level_id}
+	</update>
+	
+	<update id="delete" parameterType="Level">
+		DELETE
+		FROM
+			TBLLEVEL
+		<where>
+			LEVEL_ID = #{level_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="Level">
+		DELETE
+		FROM
+			TBLLEVEL
+		WHERE
+			LEVEL_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+</mapper>

@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.ordunconfirm.service.impl.OrderUnconfirmDao">
+
+	<select id="getListCount" parameterType="OrderUnconfirm" resultType="int">
+		SELECT COUNT(*) FROM
+			(SELECT 
+				1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.USER_ID
+	            , ETBL1.RESULT
+	            , ETBL1.TOPIC
+				, ETBL2.NAME AS USER_NAME
+				, ETBL2.EMAIL AS USER_EMAIL
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
+			WHERE
+				ETBL1.STATUS = 4
+				AND ETBL1.VALID_FLAG = 1
+        		<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND ETBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+        UNION ALL
+		 	SELECT 
+		 		2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.USER_ID
+	            , RTBL1.RESULT
+	            , RTBL1.TOPIC
+				, RTBL2.NAME AS USER_NAME
+				, RTBL2.EMAIL AS USER_EMAIL
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
+			WHERE
+				RTBL1.STATUS = 4
+				AND RTBL1.VALID_FLAG = 1
+				<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND RTBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+		) A
+		ORDER BY END_DATE DESC
+	</select>
+	
+	<select id="getList" parameterType="OrderUnconfirm" resultType="OrderUnconfirm">
+		SELECT * FROM
+			(SELECT 
+				1 as TYPE_ID
+				, ETBL1.ORDER_ID
+				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
+				, ETBL1.TOTAL_PAYMENT
+				, ETBL1.USER_ID
+	            , ETBL1.RESULT
+	            , ETBL1.TOPIC
+				, ETBL2.NAME AS USER_NAME
+				, ETBL2.EMAIL AS USER_EMAIL
+			FROM
+				TBLESSAY ETBL1
+				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
+			WHERE
+				ETBL1.STATUS = 4
+				AND ETBL1.VALID_FLAG = 1
+        		<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND ETBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+        UNION ALL
+		 	SELECT 
+		 		2 as TYPE_ID
+				, RTBL1.ORDER_ID
+				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
+				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
+				, RTBL1.TOTAL_PAYMENT
+				, RTBL1.USER_ID
+	            , RTBL1.RESULT
+	            , RTBL1.TOPIC
+				, RTBL2.NAME AS USER_NAME
+				, RTBL2.EMAIL AS USER_EMAIL
+			FROM
+				TBLREVISION RTBL1
+				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
+			WHERE
+				RTBL1.STATUS = 4
+				AND RTBL1.VALID_FLAG = 1
+				<if test="!isEmpty(search_keyword)">
+					<if test="search_field == 'order_id'">
+						AND RTBL1.ORDER_ID = #{search_keyword}
+					</if>
+					<if test="search_field == 'email'">
+						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+					</if>
+				</if>
+		) A
+		ORDER BY END_DATE DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="OrderUnconfirm" resultType="OrderUnconfirm">
+		SELECT
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, MANAGER_ID
+			, WRITER_ID
+			, SUBTOTAL
+			, DISCOUNT
+			, TOTAL_PAYMENT
+			, PAY_METHOD
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VIEW_TIME
+			, UPLOAD_TIME
+			, REFUNDED
+			, PAID_BUT_CANCELLED
+			, VALID_FLAG
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="OrderUnconfirm" >
+		<selectKey keyProperty="order_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ORDER_ID), 0) + 1 FROM TBLORDER
+		</selectKey>
+		INSERT INTO TBLORDER ( 
+			ORDER_ID
+			, USER_ID
+			, USER_EMAIL
+			, TYPE_ID
+			, TOTAL_PAYMENT
+			, DAYS
+			, DATE
+			, START_DATE
+			, END_DATE
+			, DATE_MODIFIED
+			, STATUS
+			, VALID_FLAG
+			, DELETE_FLAG
+		) VALUES (
+			#{order_id}
+			, #{user_id}
+			, #{user_email}
+			, #{type_id}
+			, #{total_payment}
+			, #{days}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, 1
+			, 1
+			, 0
+		)
+	</insert>
+	
+	<update id="update" parameterType="OrderUnconfirm">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ORDER_ID = #{order_id}
+	</update>
+	
+	<update id="delete" parameterType="OrderUnconfirm">
+		DELETE
+		FROM
+			TBLORDER
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="OrderUnconfirm">
+		DELETE
+		FROM
+			TBLORDER
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+
+	<update id="updateList" parameterType="OrderUnconfirm">
+		UPDATE
+			TBLORDER
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+
+</mapper>

@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="stm.com.program.order.essay.service.impl.OrderEssayDao">
+
+	<select id="getListCount" parameterType="OrderEssay" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			TBLESSAY
+		<where>
+			VALID_FLAG = 1 
+		</where>
+			
+	</select>
+	
+	<select id="getList" parameterType="OrderEssay" resultType="OrderEssay">
+		SELECT
+			*
+		FROM
+			TBLESSAY
+		<where>
+			VALID_FLAG = 1 
+		</where>
+		ORDER BY ESSAY_ID DESC
+		<if test='page_use_at == "Y"'>
+			LIMIT ${record_count_per_page} OFFSET ${first_index}
+		</if>
+	</select>
+
+	<select id="getView" parameterType="OrderEssay" resultType="OrderEssay">
+		SELECT
+			TBL1.ESSAY_ID
+			, TBL1.ORDER_ID
+			, TBL1.USER_ID
+			, TBL1.MANAGER_ID
+			, TBL1.TOPIC
+			, TBL1.CATEGORY
+			, TBL1.ESSAY_TYPE
+			, TBL1.FORMAT
+			, TBL1.NO_PAGES
+			, TBL1.READ_MATERIAL
+			, TBL1.NO_SOURCES
+			, TBL1.PREFERRED_WRITER
+			, TBL1.IN_INTRO
+			, TBL1.IN_BODY
+			, TBL1.IN_CONCLUSION
+			, TBL1.FILE
+			, TBL1.FILE_UPLOAD
+			, TBL1.SUBTOTAL
+			, TBL1.DISCOUNT
+			, TBL1.TOTAL_PAYMENT
+			, TBL1.PAY_METHOD
+			, TBL1.DAYS
+			, TBL1.STATUS
+			, TBL1.START_DATE
+			, TBL1.END_DATE
+			, TBL1.RESULT
+			, TBL1.LEVEL
+			, TBL2.NAME as WRITER_ID
+		FROM
+			TBLESSAY TBL1
+		LEFT JOIN 
+			TBLUSERS TBL2 ON TBL1.WRITER_ID = TBL2.USER_ID
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="OrderEssay" >
+		<selectKey keyProperty="essay_id" resultType="String" order="BEFORE" >
+			SELECT IFNULL(MAX(ESSAY_ID), 0) + 1 FROM TBLESSAY
+		</selectKey>
+		INSERT INTO TBLESSAY ( 
+			ESSAY_ID
+			, ORDER_ID
+			, USER_ID
+			, CATEGORY
+			, FORMAT
+			, NO_PAGES
+			, READ_MATERIAL
+			, LEVEL
+			, NO_SOURCES
+			, PREFERRED_WRITER
+			, TOPIC
+			, IN_BODY
+			, FILE
+			, FILE_UPLOAD
+			, TOTAL_PAYMENT
+			, DAYS
+			, STATUS
+			, START_DATE
+			, END_DATE			
+			, VALID_FLAG
+		) VALUES (
+			#{essay_id}
+			, #{order_id}
+			, #{user_id}
+			, #{category}
+			, #{format}
+			, #{no_pages}
+			, #{read_material}
+			, #{level}
+			, #{no_sources}
+			, #{preferred_writer}
+			, #{topic}
+			, #{in_body}
+			, #{file}
+			, #{file_upload}
+			, #{total_payment}
+			, #{days}
+			, 1
+			, DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, #{end_date}
+			, 1
+		)
+	</insert>
+	
+	<update id="update" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			<if test="no_sources != null">
+				, NO_SOURCES = #{no_sources}
+			</if>
+			<if test="preferred_writer != null">
+				, PREFERRED_WRITER = #{preferred_writer}
+			</if>
+			<if test="in_body != null">
+				, IN_BODY = #{in_body}
+			</if>
+			<if test="category != null">
+				, CATEGORY = #{category}
+			</if>
+			<if test="format != null">
+				, FORMAT = #{format}
+			</if>
+			<if test="no_pages != null">
+				, NO_PAGES = #{no_pages}
+			</if>
+			<if test="read_material != null">
+				, READ_MATERIAL = #{read_material}
+			</if>
+			<if test="topic != null">
+				, TOPIC = #{topic}
+			</if>
+			<if test="level != null">
+				, LEVEL = #{level}
+			</if>
+			<if test="total_payment != null">
+				, TOTAL_PAYMENT = #{total_payment}
+			</if>
+			<if test="days != null">
+				, DAYS = #{days}
+			</if>
+			<if test="file != null">
+				, FILE = #{file}
+			</if>
+			<if test="file_upload != null">
+				, FILE_UPLOAD = #{file_upload}
+			</if>
+			<if test="end_date != null">
+				, END_DATE = #{end_date}
+			</if>
+		WHERE 
+			ESSAY_ID = #{essay_id}
+	</update>
+	
+	<update id="delete" parameterType="OrderEssay">
+		DELETE
+		FROM
+			TBLESSAY
+		<where>
+			ESSAY_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="deleteList" parameterType="OrderEssay">
+		DELETE
+		FROM
+			TBLESSAY
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateList" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		WHERE
+			ORDER_ID IN
+			<foreach collection="id_checks" item="row" open="(" close=")" separator=",">
+				${row}
+ 			</foreach>
+	</update>
+	
+	<update id="updateStatus" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = #{status}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateManager" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, MANAGER_ID = #{manager_id}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateWriter" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, WRITER_ID = #{writer_id}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateResult" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, RESULT = #{result}
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="updateDelete" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DELETE_FLAG = 1
+			, DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+		<where>
+			ORDER_ID = #{order_id}
+		</where>
+	</update>
+	
+	<update id="cancelUnpaidOrder" parameterType="OrderEssay">
+		UPDATE
+			TBLESSAY
+		SET
+			DATE_MODIFIED = DATE_FORMAT(SYSDATE(), '%Y-%m-%d %H:%i:%s')
+			, STATUS = 4 
+		<where>
+			STATUS = 1 
+			AND HOUR(TIMEDIFF(now(), START_DATE)) >= 12
+		</where>
+	</update>
+	
+	<select id="getTotalOrderByCategory" parameterType="OrderEssay" resultType="OrderEssay">
+		SELECT
+			CATEGORY
+			, COUNT(*) AS SUBTOTAL
+		FROM
+			TBLESSAY
+		<where>
+			STATUS != 4
+			AND VALID_FLAG = 1
+			<if test='!isEmpty(search_keyword)'>
+				<if test="search_field == 'email'">
+				AND USER_ID = (SELECT USER_ID FROM TBLUSERS WHERE EMAIL=#{user_id})
+				</if>
+			</if>
+			AND CATEGORY IN('Agriculture', 'Astronomy', 'Business',
+						'Education', 'Energy', 'Entertainment', 'Environment', 'Fashion', 'Food', 'Geography',
+						'Government', 'Healthcare', 'History', 'Language', 'Literature', 'Philosophy')
+		</where>
+		GROUP BY CATEGORY
+	</select>
+	
+	<select id="getWriterProductivity" parameterType="OrderEssay" resultType="OrderEssay">
+		SELECT 
+			WRITER_ID
+			, ORDER_ID
+			, TOPIC
+			, CATEGORY
+			, NO_PAGES
+			, DATE_FORMAT(START_DATE, '%Y-%m-%d') as START_DATE
+			, DATE_FORMAT(END_DATE, '%Y-%m-%d') as END_DATE
+			, DATE_FORMAT(DATE_MODIFIED, '%Y-%m-%d') as DATE_MODIFIED
+			, STATUS 
+		FROM
+			TBLESSAY
+		<where>
+			WRITER_ID = #{writer_id}
+			AND STATUS = #{status}
+			AND DATE_FORMAT(START_DATE,'%Y-%m') = #{start_date} 			
+		</where>
+	</select>
+	
+	<select id="getWriterProductivityAll" parameterType="OrderEssay" resultType="OrderEssay">
+		SELECT 
+			WRITER_ID
+			, ORDER_ID
+			, TOPIC
+			, CATEGORY
+			, NO_PAGES
+			, DATE_FORMAT(START_DATE, '%Y-%m-%d') as START_DATE
+			, DATE_FORMAT(END_DATE, '%Y-%m-%d') as END_DATE
+			, DATE_FORMAT(DATE_MODIFIED, '%Y-%m-%d') as DATE_MODIFIED
+			, STATUS 
+		FROM
+			TBLESSAY
+		<where>
+			WRITER_ID = #{writer_id}
+			AND STATUS in (3,2)
+			AND DATE_FORMAT(START_DATE,'%Y-%m') = #{start_date} 			
+		</where>
+	</select>
+</mapper>
