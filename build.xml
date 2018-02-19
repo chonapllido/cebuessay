@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="build" name="psdkitchen">
+<project basedir="." default="build" name="cebuessay">
 	<property name="TOMCAT_HOME" value="/home/ec2-user/stm-tomcat/" />
-	<property name="CEBUESSAY_SRC_HOME" value="/home/ec2-user/stm-www/data/git/cebuessay/" />
-	<property name="CEBUESSAY_HOME" value="/home/ec2-user/stm-www/data/deploy/cebuessay/" />
+	<property name="CEBUESSAY_SRC_HOME" value="/home/ec2-user/stm-www/git/cebuessay/" />
+	<property name="CEBUESSAY_HOME" value="/home/ec2-user/stm-www/deploy/cebuessay/" />
 	<property name="CEBUESSAY_CLASSPATH"
-		value="/home/ec2-user/stm-www/data/deploy/cebuessay/WEB-INF/classes" />
+		value="/home/ec2-user/stm-www/deploy/cebuessay/WEB-INF/classes" />
 	<property name="debuglevel" value="source,lines,vars" />
 	<property name="target" value="1.8" />
 	<property name="source" value="1.8" />
