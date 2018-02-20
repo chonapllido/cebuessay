@@ -81,11 +81,11 @@ public class MailController {
 				+ "\nDeadline: "+cmd.getEnd_date().substring(0, 10)+"\nPrice: "+cmd.getTotal_payment()+"$";
 		
 		
-		System.out.println(message);
 		MailCommand mail = new MailCommand();
 		mail.setSendFrom(fromEmail);
 		mail.setFromName(fromName);
-		mail.setSendTo("csinternational08@gmail.com,cebuessay@gmail.com");
+		mail.setSendTo("chona_fhlare@yahoo.com,chonapllido@gmail.com");
+		//mail.setSendTo("csinternational08@gmail.com,cebuessay@gmail.com");
 		mail.setSubject(subject);
 		mail.setMessage(message);
 		
