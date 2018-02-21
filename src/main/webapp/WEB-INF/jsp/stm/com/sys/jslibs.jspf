@@ -13,7 +13,6 @@
 	value="${now}"
 />
 
-<%-- <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&language=en" type="text/javascript"></script> --%>
 <script type="text/javascript" src="${js_src}/jquery-1.11.1.min.js"  charset="UTF-8"></script>
 <script type="text/javascript" src="${js_src}/jquery-ui-1.11.2.custom/jquery-ui.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="${js_src}/common.js" charset="UTF-8"></script>
