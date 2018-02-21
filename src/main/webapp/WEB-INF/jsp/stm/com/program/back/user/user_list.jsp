@@ -45,7 +45,7 @@
 				return false;
 			} else {
 				document.Form_list.user_price.value = price;
-				document.Form_list.action = 'updateList.do?<c:out value="${param}" />';
+				document.Form_list.action = 'updateList.do?<c:out value="${params}" />';
 				document.Form_list.submit();
 			}
 		}
@@ -68,7 +68,7 @@
 <c:set var="total_withno_order" value="0" />
 <div class="admin-contents">
 	<h2 class="content-title">Users List</h2>
-	<form:form name="Form_list" id="Form_list" action="deleteList.do?${param }" method="post">
+	<form:form name="Form_list" id="Form_list" action="deleteList.do?${params }" method="post">
 	<input type="hidden" name="user_price" value="" />
 	<input type="hidden" name="user_id" value="" />
 	<input type="hidden" name="blacklist" value="" />
@@ -188,7 +188,7 @@
 		<button type="button" onclick="fnFilter();">Filter</button>
 	</div>
 	</form:form>
-	<form:form name="Form_manage_search" action="${url }?${param }" method="post">
+	<form:form name="Form_manage_search" action="${url }?${params }" method="post">
 	<div class="admin-search-bottom">
 		<select name="search_field">
 			<option value="email">Email Address</option>

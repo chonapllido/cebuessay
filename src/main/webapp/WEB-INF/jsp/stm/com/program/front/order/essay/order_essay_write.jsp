@@ -35,7 +35,7 @@
 		</div>
 		<span class="bg-right">&nbsp;</span>
 	</div>
-	<form:form name="Form_essay" commandName="orderEssayCommand" action="/front/order/essay/review.do?${param }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderEssayCommand')">
+	<form:form name="Form_essay" commandName="orderEssayCommand" action="/front/order/essay/review.do?${params }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderEssayCommand')">
 	<input type="hidden" name="total_payment" value="${total}" />
 	<input type="hidden" name="price" value="" />
 	<input type="hidden" name="session_lang" id="session_lang" value="EN" />

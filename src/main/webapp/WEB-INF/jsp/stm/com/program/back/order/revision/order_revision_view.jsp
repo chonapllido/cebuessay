@@ -18,7 +18,7 @@
 <div class="admin-contents">
 	<h2 class="content-title">Order Management</h2>
 	<h3 class="orderno-title">Order No: ${cmd.order_id }</h3> 
-	<form:form name="Form_order_revision"  action="${url}?${param }" method="post" enctype="multipart/form-data">
+	<form:form name="Form_order_revision"  action="${url}?${params }" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="type_id" value="2" />
 		<input type="hidden" name="file" value="" />
 		<input type="hidden" name="file_upload" value="" />

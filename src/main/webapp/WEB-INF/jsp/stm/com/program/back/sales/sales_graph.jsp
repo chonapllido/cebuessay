@@ -852,7 +852,7 @@
 <div class="admin-contents">
 	<h2 class="content-title">Sales Graphs</h2>
 	<div id="admincon" class="sales-graph-box">
-		<form:form name="Form_sales" action="${url }?${param}" method="post">
+		<form:form name="Form_sales" action="${url }?${params}" method="post">
 		<input type="hidden" name="search_field" value="email" />
 		<div class="graph_search">
 			<label><strong>Email Address:</strong></label>

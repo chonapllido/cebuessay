@@ -20,7 +20,7 @@
 		</div>
 		<span class="bg-right">&nbsp;</span>
 	</div>
-	<form:form name="Form_essay" method="post" action="${url}?${param}">
+	<form:form name="Form_essay" method="post" action="${url}?${params}">
 	<table class="tbl-order-form">
 		<tr>
 			<td class="col1">Category</td>

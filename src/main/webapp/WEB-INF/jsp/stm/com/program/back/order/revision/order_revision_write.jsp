@@ -13,7 +13,7 @@
 <div class="admin-contents"> 
 	 <h2 class="content-title">Order Management</h2>
 	<h3 class="orderno-title">Order No: ${orderRevisionCommand.order_id }</h3>
-	<form:form name="Form_revision" command="orderRevisionCommand" action="${url }?${param }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderRevisionCommand')">
+	<form:form name="Form_revision" command="orderRevisionCommand" action="${url }?${params }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderRevisionCommand')">
 	<input type="hidden" name="total_payment" value="${orderRevisionCommand.total_payment }" />
 	<input type="hidden" name="price" />
 	<input type="hidden" name="no_pages" value=""/>

@@ -26,7 +26,7 @@
 </script>
 <div class="admin-contents">
 	<h2 class="content-title">Sent Emails</h2>
-	<form:form name="Form_list" id="Form_list" action="deleteList.do?${param }" method="post" >
+	<form:form name="Form_list" id="Form_list" action="deleteList.do?${params }" method="post" >
 	<input type="hidden" name="file" value="" />
 	<table class="tbl-admin">
 		<colgroup>
@@ -88,7 +88,7 @@
 		<button type="button" onclick="fnDeleteList()" class="admin-btn">DELETE</button>
 	</div>
 	</form:form>
-	<form:form name="Form_search" action="${url}?${param}" method="post">
+	<form:form name="Form_search" action="${url}?${params}" method="post">
 	<input type="hidden" name="search_field" value="email" />
 	<div class="admin-search-bottom">
 		<label for="search_txt">Email Address:</label>

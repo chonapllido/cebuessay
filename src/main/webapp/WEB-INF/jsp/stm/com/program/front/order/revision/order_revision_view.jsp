@@ -19,7 +19,7 @@
 		</div>
 		<span class="bg-right">&nbsp;</span>
 	</div>
-	<form name="form_revision" method="post" enctype="multipart/form-data" action="${url }?${param}">
+	<form name="form_revision" method="post" enctype="multipart/form-data" action="${url }?${params}">
 	<table class="tbl-order-form">
 		<tr>
 			<td class="col1">Topic</td>

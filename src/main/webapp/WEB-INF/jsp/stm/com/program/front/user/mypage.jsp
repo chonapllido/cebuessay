@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	<span class="mypage-vm">Your Virtual Money: <span>US $${virtual_money }</span></span>
-	<form:form name="Form_order" commandName="orderCommand" action="${url}?${param}" method="post" >
+	<form:form name="Form_order" commandName="orderCommand" action="${url}?${params}" method="post" >
 	<input type="hidden" name="type_id"  value="" />
 	<input type="hidden" name="order_id" value="" />
 	<input type="hidden" name="result" value="" />
@@ -100,7 +100,7 @@
 	</table>
 	<div class="paging"><stmfn:paging1/></div>
 	</form:form>	
-	<form:form name="Form_mypage_search" commandName="orderCommand" method="post" action="${url }?${param}" >
+	<form:form name="Form_mypage_search" commandName="orderCommand" method="post" action="${url }?${params}" >
 	<input type="hidden" name="search_field" value="order_id" />
 	<div class="list-search">
 		<label for="order_no">Order No:</label>

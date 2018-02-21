@@ -101,7 +101,7 @@
 			f.result.value = el;
 			$('input[type=file]').not("input[name="+el+"]").prop('disabled', true);
 		 	
-			document.Form_manage.action = "/back/order/uploadResult.do?"+"<c:out value='${param}' />";
+			document.Form_manage.action = "/back/order/uploadResult.do?"+"<c:out value='${params}' />";
 		 	document.Form_manage.submit();
 	}
 	
@@ -143,7 +143,7 @@
 
 <div class="admin-contents">
 	<h2 class="content-title">Order Management</h2>
-	<form:form name="Form_manage" id="Form_manage" commandName="orderCommand" method="post" action="${url }?${param }" enctype="multipart/form-data">		
+	<form:form name="Form_manage" id="Form_manage" commandName="orderCommand" method="post" action="${url }?${params }" enctype="multipart/form-data">		
 	<input type="hidden" name="type_id"  />
 	<input type="hidden" name="order_id" />	
 	<input type="hidden" name="file" />
@@ -327,7 +327,7 @@
 		</div>
 	</div>
 	</form:form>
-	<form:form name="Form_manage_search" commandName="orderCommand" action="${url }?${param }" method="post">
+	<form:form name="Form_manage_search" commandName="orderCommand" action="${url }?${params }" method="post">
 	<div class="admin-search-bottom">
 		<select name="search_field">
 			<option value="email" <c:if test="${orderCommand.search_field eq 'email' }">selected="selected"</c:if>>Email Address</option>

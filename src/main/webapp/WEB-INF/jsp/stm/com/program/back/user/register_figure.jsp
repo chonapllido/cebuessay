@@ -45,7 +45,7 @@
 
 <div class="admin-contents">
 	<h2 class="content-title">Sales Figure</h2>
-	<form name="Form_sales" method="post" action="${url }?${param}">
+	<form name="Form_sales" method="post" action="${url }?${params}">
 	<div class="sales-date-box">
 		<button type="button" class="btn-img" onclick="fnChangeYear(0)"><img src="${img_src }/stm/btn/btn_previous.png" alt="previous" /></button>
 		<input type="text" name="year" value="${year }" size="4" />

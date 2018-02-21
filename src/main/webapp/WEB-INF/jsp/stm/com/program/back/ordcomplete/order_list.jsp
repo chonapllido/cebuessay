@@ -34,7 +34,7 @@
 				return false;
 			} else {
 				document.Form_list.status.value = 2;
-				document.Form_list.action = 'updateList.do?<c:out value="${param}" />';
+				document.Form_list.action = 'updateList.do?<c:out value="${params}" />';
 				document.Form_list.submit();
 			}
 		}
@@ -56,7 +56,7 @@
 	fnSearchByDate = function(){
 		var f = document.Form_list;
 		
-		f.action = "list.do?<c:out value='${param}' />";
+		f.action = "list.do?<c:out value='${params}' />";
 		f.search_field.value = "date";
 		f.search_keyword.value = f.search_year.value + "-" + f.search_month.value;		
 		
@@ -69,7 +69,7 @@
 <fmt:formatDate value="${current_date }" pattern="yyyy" var="current_year" />
 <div class="admin-contents">
 	<h2 class="content-title">Completed Orders List</h2>
-	<form:form name="Form_list" id="Form_list" method="post" action="deleteList.do?${param }">
+	<form:form name="Form_list" id="Form_list" method="post" action="deleteList.do?${params }">
 		<input type="hidden" name="type_id" value="" />
 		<input type="hidden" name="result" value="" />
 		<input type="hidden" name="status" value="" />
@@ -201,7 +201,7 @@
 		<button type="button" onclick="fnUpdateList()" class="admin-btn">MOVE TO ORDER</button>
 	</div>
 	
-	<form:form name="Form_manage_search" action="/back/order/complete/list.do?${param }" method="post">
+	<form:form name="Form_manage_search" action="/back/order/complete/list.do?${params }" method="post">
 	<div class="admin-search-bottom">
 		<select name="search_field">
 			<option value="email" <c:if test="${cmd.search_field eq 'email' }">selected="selected"</c:if>>Email Address</option>

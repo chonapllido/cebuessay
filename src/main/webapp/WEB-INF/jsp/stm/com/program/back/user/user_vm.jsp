@@ -96,7 +96,7 @@
 </script>
 <div class="admin-contents">
 	<h2 class="content-title">Users with Virtual Money</h2>
-	<form:form name="Form_list" action="${url }?${param }"  method="post" >
+	<form:form name="Form_list" action="${url }?${params }"  method="post" >
 	<table class="tbl-admin">
 		<colgroup>
 			<col width="10%" />
@@ -149,7 +149,7 @@
 		</c:if>
 	</div>
 	</form:form>
-	<form:form name="Form_search" action="${url }?${param }" method="post">
+	<form:form name="Form_search" action="${url }?${params }" method="post">
 	<div class="admin-search-bottom">
 		<select name="search_field">
 			<option value="email">Email Address</option>

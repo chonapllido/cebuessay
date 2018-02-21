@@ -17,7 +17,7 @@
 <div class="admin-contents">
 	<h2 class="content-title">Order Management</h2>
 	<h3 class="orderno-title">Order No: ${orderEssayCommand.order_id }</h3>
-	<form:form name="Form_essay" commandName="orderEssayCommand" action="${url}?${param}" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderEssayCommand')">
+	<form:form name="Form_essay" commandName="orderEssayCommand" action="${url}?${params}" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'OrderEssayCommand')">
 		<input type="hidden" name="total_payment" id="total_payment" value="${orderEssayCommand.total_payment }" />
 		<input type="hidden" name="price" id="price" value="0" />
 		<input type="hidden" name="session_lang" id="session_lang" value="EN" />

@@ -27,7 +27,7 @@
 		</div>
 	</div>
 	<span class="order-spacer">&nbsp;</span>
-	<form:form name="Form_write" action="${url }?${param }" method="post" >
+	<form:form name="Form_write" action="${url }?${params }" method="post" >
 	<span class="process-title"><strong>Please enter your email address below to retrieve your password:</strong></span>
 	<table class="tbl-order-form">
 		<tr>

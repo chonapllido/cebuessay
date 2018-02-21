@@ -38,7 +38,7 @@
 </script>
 <div class="admin-contents">
 	<h2 class="content-title">Writer's Payment List</h2>
-	<form:form name="Form_list" method="post" action="${url }?${param}">
+	<form:form name="Form_list" method="post" action="${url }?${params}">
 		<div class="writer-date-select">
 			<select name="from_month">
 				<option value="1" <c:if test="${fromMonth eq '1' }">selected="selected"</c:if>>January</option>

@@ -47,7 +47,7 @@
 <c:set var="total_words" value="0" />
 <c:set var="total_print_words" value="0" />
 <div class="writer-productivity" id="htmlpage">
-	<form:form name="Form_list" action="${url }?${param }" method="post">
+	<form:form name="Form_list" action="${url }?${params }" method="post">
 		<input type="hidden" name="user_id" value="${user_id }" />
 		<div class="writer_detail">
 			<input type="button" name="btnprintable" value="Printable Version" class="btn_print" onclick="fnViewPrintable('1');" />
@@ -189,7 +189,7 @@
 	</form:form>
 </div>
 <div class="writer-productivity" id="printable">
-	<form:form name="From_print" action="${url }?${param }" method="post">
+	<form:form name="From_print" action="${url }?${params }" method="post">
 		<input type="button" name="webpage" value="<< Web Page" class="btn_print" onclick="fnViewPrintable('0');" />
 		<input type="button" name="print" value="PRINT" class="btn_print" onclick="window.print();"/>
 		<%--<input type="submit" name="submit" value="Download" class="btn_print" /> --%>

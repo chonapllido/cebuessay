@@ -34,7 +34,7 @@
 
 <div class="admin-contents">
 	<h2 class="content-title">Officer Update</h2>
-	<form:form name="Form_officer" commandName="userCommand" action="${url }?${param }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'UserCommand');">
+	<form:form name="Form_officer" commandName="userCommand" action="${url }?${params }" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'UserCommand');">
 	<input type="hidden" name="user_id" value="${userCommand.user_id }" />
 	<table class="tbl-admin-form">
 		<tr>

@@ -72,7 +72,7 @@ $(function(){
 		</div>
 	</div>
 	<span class="order-spacer">&nbsp;</span>
-	<form:form name="Form_register" commandName="userCommand" action="${url}?${param}" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'UserCommand');" >
+	<form:form name="Form_register" commandName="userCommand" action="${url}?${params}" method="post" enctype="multipart/form-data" onsubmit="return doSubmit(this, 'UserCommand');" >
 	<input type="hidden" name="user_id" value="${userCommand.user_id }" />
 	<input type="hidden" name="idChecked" id="idChecked" value="N"/>	
 	<input type="hidden" name="captcha_confirm" value="" />

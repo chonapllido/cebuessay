@@ -78,7 +78,7 @@
 	<div class="admin-bottom-btns">
 		<a href="insert.do" class="admin-btn">ADD OFFICER</a>
 	</div>
-	<form:form name="Form_manage_search" action="${url }?${param }" method="post">
+	<form:form name="Form_manage_search" action="${url }?${params }" method="post">
 	<div class="admin-search-bottom">
 		<select name="search_field">
 			<option value="email">Email Address</option>

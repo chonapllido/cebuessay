@@ -18,7 +18,7 @@ fnDownloadFile = function(filenameOrig, filenameNew){
 <div class="admin-contents">
 	<h2 class="content-title">Order Management</h2>
 	<h3 class="orderno-title">Order No: ${cmd.order_id }</h3>
-	<form:form name="Form_order_essay" method="post" action="${url }?${param}">
+	<form:form name="Form_order_essay" method="post" action="${url }?${params}">
 	<input type="hidden" name="type_id" value="1" />
 	<input type="hidden" name="file" value="" />
 	<input type="hidden" name="file_upload" value="" />
