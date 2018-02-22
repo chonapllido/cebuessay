@@ -89,6 +89,7 @@ public class MailController {
 		mail.setSubject(subject);
 		mail.setMessage(message);
 		
+		System.out.println(message);
 
 		this.sendMail(mail);
 	
