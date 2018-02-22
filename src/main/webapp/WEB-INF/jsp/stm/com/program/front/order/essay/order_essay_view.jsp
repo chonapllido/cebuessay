@@ -84,7 +84,7 @@
 	</form:form>
 	<span class="order-note-timer">
 		<span class="order-note"><strong><c:if test="${! empty cancelTime}">Time Remaining:</c:if></strong></span>
-		<span class="order-timer">cancelTime: ${cancelTime }
+		<span class="order-timer">cancelTime: ${cancelTime } current date:${current_date }
 			<c:if test="${! empty cancelTime }">		
 			 <span id="timer">
 			 <script type="text/javascript">
