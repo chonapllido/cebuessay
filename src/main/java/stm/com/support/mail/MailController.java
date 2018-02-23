@@ -18,10 +18,14 @@ import egovframework.com.cmm.service.EgovProperties;
 @Controller
 public class MailController {
 
-	public void sendMail(MailCommand cmd){
+	public void sendMail(MailCommand cmd, String flag){
 
 		SimpleMailMessage mail_msg = new SimpleMailMessage();
-		mail_msg.setTo(cmd.getSendTo());
+		if(flag.equals("single")){
+			mail_msg.setTo(cmd.getSendTo());
+		} else {
+			mail_msg.setTo(cmd.getSendToM());
+		}
 		mail_msg.setFrom(cmd.getSendFrom());
 		mail_msg.setSubject(cmd.getSubject());
 		mail_msg.setText(cmd.getMessage());
@@ -74,6 +78,7 @@ public class MailController {
 	}
 	
 	public void sendOrderNotice(OrderCommand cmd, String topic){
+		String to[] = {"chona_fhlare@yahoo.com", "chonapllido@gmail.com"};
 		String fromEmail = EgovProperties.getProperty("Globals.mailSendFromEmail");
 		String fromName	= EgovProperties.getProperty("Globals.mailSendFromName");
 		String subject = "CebuEssay New Order #"+cmd.getOrder_id();
@@ -84,14 +89,15 @@ public class MailController {
 		MailCommand mail = new MailCommand();
 		mail.setSendFrom(fromEmail);
 		mail.setFromName(fromName);
-		mail.setSendTo("chona_fhlare@yahoo.com,chonapllido@gmail.com");
+		mail.setSendToM(to);
+		mail.setSendTo(to[0]);
 		//mail.setSendTo("csinternational08@gmail.com,cebuessay@gmail.com");
 		mail.setSubject(subject);
 		mail.setMessage(message);
 		
 		System.out.println(message);
 
-		this.sendMail(mail);
+		this.sendMail(mail, "multiple");
 	
 	}
 }

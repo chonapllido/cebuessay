@@ -4,6 +4,7 @@ public class MailCommand {
 	
 	private String sendFrom;
 	private String sendTo;
+	private String[] sendToM;
 	private String fromName;
 	private String subject;
 	private String message;
@@ -33,6 +34,20 @@ public class MailCommand {
 	public void setSendTo(String sendTo) {
 		this.sendTo = sendTo;
 	}
+	
+	/**
+	 * @return the sendToM
+	 */
+	public String getSendToM() {
+		return sendTo;
+	}
+	/**
+	 * @param sendTo the sendTo to set
+	 */
+	public void setSendToM(String[] sendToM) {
+		this.sendToM = sendToM;
+	}
+	
 	/**
 	 * @return the fromName
 	 */

@@ -216,7 +216,7 @@ public class OrderController extends GenericController<OrderService, OrderComman
 		  
 			mail.setSubject("Confirmation of Order "+order_id);
 			mail.setMessage(message);	
-			mailControl.sendMail(mail);
+			mailControl.sendMail(mail, "single");
 			
 		} else if(action.equals("finish")){
 			String filePath = EgovProperties.getProperty("Globals.orderFilesPath") + "/results/" + type.toLowerCase() + "/" + result;
@@ -281,7 +281,7 @@ public class OrderController extends GenericController<OrderService, OrderComman
 		mail.setSendTo(email);
 		mail.setSubject("Cancellation Notice of Order "+order_id);
 		mail.setMessage(message);	
-		mailControl.sendMail(mail);	
+		mailControl.sendMail(mail, "single");	
 		
 	}
 	

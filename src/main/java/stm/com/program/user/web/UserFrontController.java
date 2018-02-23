@@ -252,7 +252,7 @@ public class UserFrontController extends GenericController<UserService, UserComm
 			String message = "Your CebuEssay password is:\n\n"+password+"\n\n";
 			message += "Best Regards,\nCebuEssay";
 			mail.setMessage(message);
-			mailUtil.sendMail(mail);
+			mailUtil.sendMail(mail, "single");
 
 			found = "yes";
 		}

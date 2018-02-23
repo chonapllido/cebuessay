@@ -50,11 +50,15 @@ public class SentmailController extends GenericController<SentmailService, Sentm
 		String folderDest = "/uploads/mail/";
 		String filePath = EgovProperties.getProperty("Globals.orderFilesPath") + folderDest;
 		FileMngUtil fileUtil = new FileMngUtil();
+		String flag = "single";
 		
 		Map<String, MultipartFile> files = multireq.getFileMap();
 		
 		/* send email */
 		String emails = StringUtils.join(cmd.getId_checks(),",");
+		if(emails.contains(",")){
+			flag = "multiple";
+		}
 		MailCommand mail = new MailCommand();
 		mail.setFromName("CebuEssay");
 		mail.setSendFrom("cebu.seoul@cebuessay.com");
@@ -69,7 +73,7 @@ public class SentmailController extends GenericController<SentmailService, Sentm
 		
 			mailControl.sendMailAttach(mail, filePath);
 		} else {
-			mailControl.sendMail(mail);
+			mailControl.sendMail(mail, flag);
 		}
 		
 		getService().insertList(cmd, req, res);
