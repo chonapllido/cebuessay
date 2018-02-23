@@ -5,6 +5,7 @@
 <script src="${js_src }/stm/timer.js"></script>
 
 <jsp:useBean id="current_date" class="java.util.Date" />
+<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" var="curdate"/>
 <div class="content-center">
 	<div class="article-center">
 		<div class="article-center-inner">
@@ -40,7 +41,7 @@
 			<td class="col1">Deadline</td>
 			<td class="col2" colspan="3">
 				<span class="review-date">${cmd.days } days&nbsp;&nbsp;-&nbsp;</span>
-				<span class="deadline-date"><fmt:formatDate pattern="MMM dd" value="${deadline}" /> 7pm (GMT + 9 Asian Time)</span>
+				<span class="deadline-date"><fmt:formatDate pattern="MMM dd" value="${deadline}" timeZone="Asia/Seoul"/> 7pm (GMT + 9 Asian Time)</span>
 			</td>
 		</tr>
 		<tr>
@@ -86,10 +87,11 @@
 		<span class="order-note"><strong><c:if test="${! empty cancelTime}">Time Remaining:</c:if></strong></span>
 		
 		<span class="order-timer">
+		curdate ${curdate }
 			<c:if test="${! empty cancelTime }">		
 			 <span id="timer">
 			 <script type="text/javascript">
-			 	startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" timeZone="Asia/Seoul"/>');
+			 	startTimer('${cancelTime}', '${curdate}');
 			 </script>
 			 </span>
 			 <form id="formpaypal" name="formpaypal" action="/paypal/pay.do" method="post" target="_blank">
