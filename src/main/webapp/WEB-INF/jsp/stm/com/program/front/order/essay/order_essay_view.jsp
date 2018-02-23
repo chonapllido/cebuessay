@@ -84,26 +84,13 @@
 	</form:form>
 	<span class="order-note-timer">
 		<span class="order-note"><strong><c:if test="${! empty cancelTime}">Time Remaining:</c:if></strong></span>
+		
 		<span class="order-timer">
-			time: 2018/02/22 7:8:3
-			
 			<c:if test="${! empty cancelTime }">		
 			 <span id="timer">
 			 <script type="text/javascript">
-			 var time = "2018/02/22 7:8:3";
-			 var str1 = time.indexOf(":");
-			 var str2 = time.indexOf(" ");
-			 var first = parseInt(str2+1);
-			 var second = parseInt(str1-first);
-			 var hr = time.substr(first, second);
-			/* alert("str1:" +str1);
-			 alert("str2:" +str2);
-			 alert("first:"+first);
-			 alert("second:"+second);
-			 alert("hr: "+hr);
-			*/	
-			 startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd H:m:s" value="${current_date}" />');
-			  </script>
+			 	startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" />');
+			 </script>
 			 </span>
 			 <form id="formpaypal" name="formpaypal" action="/paypal/pay.do" method="post" target="_blank">
 				<input type="hidden" name="BRANDNAME" value="CebuEssay" />
