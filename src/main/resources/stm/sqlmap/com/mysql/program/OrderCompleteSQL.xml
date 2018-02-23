@@ -165,7 +165,7 @@
 					</if>
 				</if>
 		) A
-		ORDER BY END_DATE DESC
+		ORDER BY DATE DESC
 		<if test='page_use_at == "Y"'>
 			LIMIT ${record_count_per_page} OFFSET ${first_index}
 		</if>
