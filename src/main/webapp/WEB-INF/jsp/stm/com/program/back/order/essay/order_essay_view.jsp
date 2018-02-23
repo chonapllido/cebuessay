@@ -75,7 +75,9 @@ fnDownloadFile = function(filenameOrig, filenameNew){
 				<c:set var="filenameOrig" value="${fn:split(cmd.file,':')}" />
 				<c:set var="filenameNew" value="${fn:split(cmd.file_upload,':')}" />
 				<ul>
+				length ${fn:length(filenameOrig) }
 				<c:if test="${fn:length(filenameOrig) gt 0 }">
+			
 				<c:forEach var="file" items="${filenameOrig }" varStatus="i">
 				<li>
 					<button type="button" onclick="fnDownloadFile('${file}', '${filenameNew[i.index]}')">
