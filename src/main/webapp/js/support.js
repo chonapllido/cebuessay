@@ -200,4 +200,4 @@ function doValidDoamin(str) {
 
 }
 
-//google.maps.event.addDomListener(window, 'load', mapInit);
+/*google.maps.event.addDomListener(window, 'load', mapInit);*/
