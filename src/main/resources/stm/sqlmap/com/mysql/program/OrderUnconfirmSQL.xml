@@ -4,117 +4,51 @@
 <mapper namespace="stm.com.program.ordunconfirm.service.impl.OrderUnconfirmDao">
 
 	<select id="getListCount" parameterType="OrderUnconfirm" resultType="int">
-		SELECT COUNT(*) FROM
-			(SELECT 
-				1 as TYPE_ID
-				, ETBL1.ORDER_ID
-				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
-				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
-				, ETBL1.TOTAL_PAYMENT
-				, ETBL1.USER_ID
-	            , ETBL1.RESULT
-	            , ETBL1.TOPIC
-				, ETBL2.NAME AS USER_NAME
-				, ETBL2.EMAIL AS USER_EMAIL
-			FROM
-				TBLESSAY ETBL1
-				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
-			WHERE
-				ETBL1.STATUS = 4
-				AND ETBL1.VALID_FLAG = 1
-        		<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND ETBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
+		SELECT 
+			COUNT(*) 
+		FROM
+			TBLORDER TBL1
+			LEFT JOIN TBLUSERS TBL2 ON TBL1.USER_ID = TBL2.USER_ID
+		WHERE
+			TBL1.STATUS = 4
+			AND TBL1.VALID_FLAG = 1
+       		<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'order_id'">
+					AND TBL1.ORDER_ID = #{search_keyword}
 				</if>
-        UNION ALL
-		 	SELECT 
-		 		2 as TYPE_ID
-				, RTBL1.ORDER_ID
-				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
-				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
-				, RTBL1.TOTAL_PAYMENT
-				, RTBL1.USER_ID
-	            , RTBL1.RESULT
-	            , RTBL1.TOPIC
-				, RTBL2.NAME AS USER_NAME
-				, RTBL2.EMAIL AS USER_EMAIL
-			FROM
-				TBLREVISION RTBL1
-				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
-			WHERE
-				RTBL1.STATUS = 4
-				AND RTBL1.VALID_FLAG = 1
-				<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND RTBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
+				<if test="search_field == 'email'">
+					AND TBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
 				</if>
-		) A
-		ORDER BY END_DATE DESC
+			</if>
+			
 	</select>
 	
 	<select id="getList" parameterType="OrderUnconfirm" resultType="OrderUnconfirm">
-		SELECT * FROM
-			(SELECT 
-				1 as TYPE_ID
-				, ETBL1.ORDER_ID
-				, SUBSTR(ETBL1.START_DATE,6,5) AS DATE
-				, SUBSTR(ETBL1.END_DATE,6,5) AS END_DATE
-				, ETBL1.TOTAL_PAYMENT
-				, ETBL1.USER_ID
-	            , ETBL1.RESULT
-	            , ETBL1.TOPIC
-				, ETBL2.NAME AS USER_NAME
-				, ETBL2.EMAIL AS USER_EMAIL
-			FROM
-				TBLESSAY ETBL1
-				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
-			WHERE
-				ETBL1.STATUS = 4
-				AND ETBL1.VALID_FLAG = 1
-        		<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND ETBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
+		SELECT 
+			TBL1.ORDER_ID
+			, TBL1.USER_ID
+			, TBL2.EMAIL AS USER_EMAIL
+			, TBL2.NAME AS USER_NAME
+			, TBL1.TYPE_ID
+			, DATE_FORMAT(TBL1.DATE,'%m-%d') as DATE
+			, DATE_FORMAT(TBL1.END_DATE, '%m-%d') AS END_DATE
+			, TOTAL_PAYMENT
+		FROM
+			TBLORDER TBL1
+			LEFT JOIN TBLUSERS TBL2 ON TBL1.USER_ID = TBL2.USER_ID
+		WHERE
+			TBL1.STATUS = 4
+			AND TBL1.VALID_FLAG = 1
+       		<if test="!isEmpty(search_keyword)">
+				<if test="search_field == 'order_id'">
+					AND TBL1.ORDER_ID = #{search_keyword}
 				</if>
-        UNION ALL
-		 	SELECT 
-		 		2 as TYPE_ID
-				, RTBL1.ORDER_ID
-				, SUBSTR(RTBL1.START_DATE,6,5) AS DATE
-				, SUBSTR(RTBL1.END_DATE,6,5) AS END_DATE
-				, RTBL1.TOTAL_PAYMENT
-				, RTBL1.USER_ID
-	            , RTBL1.RESULT
-	            , RTBL1.TOPIC
-				, RTBL2.NAME AS USER_NAME
-				, RTBL2.EMAIL AS USER_EMAIL
-			FROM
-				TBLREVISION RTBL1
-				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
-			WHERE
-				RTBL1.STATUS = 4
-				AND RTBL1.VALID_FLAG = 1
-				<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND RTBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
+				<if test="search_field == 'email'">
+					AND TBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
 				</if>
-		) A
-		ORDER BY END_DATE DESC
+			</if>
+
+		ORDER BY ORDER_ID DESC
 		<if test='page_use_at == "Y"'>
 			LIMIT ${record_count_per_page} OFFSET ${first_index}
 		</if>
