@@ -81,7 +81,7 @@ fnUpdateList = function(){
 			</td>
 			<td>${row.date }</td>
 			<td>${row.end_date }</td>
-			<td>${row.total_payment }$</td>
+			<td>${row.total_payment } $</td>
 			<td>
 				<c:if test="${row.type_id eq '1' }">
 					<a href="/back/order/essay/view.do?order_id=${row.order_id }">
