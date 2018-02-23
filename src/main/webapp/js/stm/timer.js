@@ -7,7 +7,6 @@ http://www.hashemian.com/
 	
 	function startTimer(targetDate, nowDate){
 	
-		alert("today:" +nowDate);
 		CountActive = true;
 		LeadingZero = true;
 		DisplayFormat = "%%H%%:%%M%%:%%S%%";
@@ -26,9 +25,6 @@ http://www.hashemian.com/
 		dnow.setHours(parseInt(nowDate.substr(11, 2)));
 		dnow.setMinutes(parseInt(nowDate.substr(14, 2)));
 		dnow.setSeconds(parseInt(nowDate.substr(17, 2)));
-		/*alert("hours: "+parseInt(nowDate.substr(11, 2)));
-		alert("minutes: "+parseInt(nowDate.substr(14, 2)));
-		alert("seconds: "+parseInt(nowDate.substr(17, 2)));*/
 		putspan();
 		var dthen = new Date(TargetDate);
 		

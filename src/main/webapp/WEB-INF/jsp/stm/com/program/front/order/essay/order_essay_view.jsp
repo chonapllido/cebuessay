@@ -89,7 +89,7 @@
 			<c:if test="${! empty cancelTime }">		
 			 <span id="timer">
 			 <script type="text/javascript">
-			 	startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" />');
+			 	startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" timeZone="Asia/Seoul"/>');
 			 </script>
 			 </span>
 			 <form id="formpaypal" name="formpaypal" action="/paypal/pay.do" method="post" target="_blank">
