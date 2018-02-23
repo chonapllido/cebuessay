@@ -94,7 +94,7 @@ fnDownloadFile = function(filenameOrig, filenameNew){
 			<c:if test="${(! empty cancelTime) and (cancelTime le current_date)}">		
 			 <span id="timer">
 			 <script type="text/javascript">
-				startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd H:m:s" value="${current_date}" />');
+				startTimer('${cancelTime}', '<fmt:formatDate pattern="yyyy/MM/dd HH:mm:ss" value="${current_date}" />');
 			  </script>
 			 </span>
 			 <form id="formpaypal" name="formpaypal" action="/paypal/pay.do" method="post" target="_blank">

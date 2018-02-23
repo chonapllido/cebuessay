@@ -36,7 +36,7 @@
 	<input type="hidden" name="session_lang" value="EN"/>
 	<input type="hidden" name="total" value=""/>
 	<input type="hidden" name="deldate" value="<fmt:formatDate pattern="MMM dd" value="${deadline }" /> 7pm (GMT +9 Asian Time)"/>
-	<input type="hidden" name="end_date" value="<fmt:formatDate pattern="yyyy-MM-dd H:m:s" value="${deadline }" />" />
+	<input type="hidden" name="end_date" value="<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${deadline }" />" />
 	<input type="hidden" name="rate" value="${prices }" />
 	<input type="hidden" name="hasorder" value="${hasorder}" />
 	<input type="hidden" name="user_id" value="${user.user_id }" />

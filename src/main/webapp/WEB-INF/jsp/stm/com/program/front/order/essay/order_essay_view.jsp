@@ -87,7 +87,6 @@
 		<span class="order-note"><strong><c:if test="${! empty cancelTime}">Time Remaining:</c:if></strong></span>
 		
 		<span class="order-timer">
-		curdate ${curdate }
 			<c:if test="${! empty cancelTime }">		
 			 <span id="timer">
 			 <script type="text/javascript">
