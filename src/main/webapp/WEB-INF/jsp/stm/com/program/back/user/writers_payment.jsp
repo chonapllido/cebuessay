@@ -108,8 +108,8 @@
 					<td>${idx }</td>
 					<td>${row.name }</td>
 					<td>${row.email }</td>
-					<td>${row.user_total_order * 250 }</td>
-					<td>${row.user_total_payment }</td>
+					<td><fmt:formatNumber type="number" value="${row.user_total_order * 250 }" groupingUsed="true" /></td>
+					<td><fmt:formatNumber type="number" value="${row.user_total_payment }" groupingUsed="true" /></td>
 					<td>
 					<c:if test="${empty row.salary}">
 						<span id="w_${i.index+1}">
