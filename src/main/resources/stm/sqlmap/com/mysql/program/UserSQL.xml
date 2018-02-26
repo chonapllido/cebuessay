@@ -324,7 +324,7 @@
 			, GENDER
 			, COUNTRY
 			, TELEPHONE
-			, DATE
+			, DATE_FORMAT(DATE,'%Y-%m-%d') AS DATE
 		FROM
 			TBLUSERS
 		<where>
