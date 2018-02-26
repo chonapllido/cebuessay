@@ -4,168 +4,75 @@
 <mapper namespace="stm.com.program.ordcomplete.service.impl.OrderCompleteDao">
 
 	<select id="getListCount" parameterType="OrderComplete" resultType="int">
-		SELECT COUNT(*) FROM
-			(SELECT 
-				1 as TYPE_ID
-				, ETBL1.ORDER_ID
-				, DATE_FORMAT(ETBL1.START_DATE,'%m-%d-%Y') AS DATE
-				, DATE_FORMAT(ETBL1.END_DATE,'%m-%d-%Y') AS END_DATE
-				, DATE_FORMAT(ETBL1.DATE_MODIFIED,'%m-%d-%Y') AS DATE_MODIFIED
-				, ETBL1.TOTAL_PAYMENT
-				, ETBL1.USER_ID
-	            , ETBL1.RESULT
-	            , ETBL1.TOPIC
-				, ETBL2.NAME AS USER_NAME
-				, ETBL2.EMAIL AS USER_EMAIL
-				, ETBL3.NAME AS MANAGER_ID
-				, ETBL4.NAME AS WRITER_ID
-				, ETBL5.REFUNDED AS REFUNDED
+		SELECT
+			COUNT(*)
 			FROM
-				TBLESSAY ETBL1
-				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
-				LEFT JOIN TBLUSERS ETBL3 ON ETBL1.MANAGER_ID = ETBL3.USER_ID
-				LEFT JOIN TBLUSERS ETBL4 ON ETBL1.WRITER_ID = ETBL4.USER_ID
-				LEFT JOIN TBLORDER ETBL5 ON ETBL1.ORDER_ID = ETBL5.ORDER_ID
+				TBLORDER TBL1
+				LEFT JOIN TBLUSERS TBL2 ON TBL1.USER_ID = TBL2.USER_ID
+				LEFT JOIN TBLUSERS TBL3 ON TBL1.MANAGER_ID = TBL3.USER_ID
+				LEFT JOIN TBLUSERS TBL4 ON TBL1.WRITER_ID = TBL4.USER_ID
+				LEFT JOIN TBLESSAY TBL5 ON TBL1.ORDER_ID = TBL5.ORDER_ID
+				LEFT JOIN TBLREVISION TBL6 ON TBL1.ORDER_ID = TBL6.ORDER_ID
 			WHERE
-				ETBL1.STATUS = 3
-				AND ETBL1.VALID_FLAG = 1
+				TBL1.STATUS = 3
+				AND TBL1.VALID_FLAG = 1
         		<if test="!isEmpty(search_keyword)">
 					<if test="search_field == 'order_id'">
-						AND ETBL1.ORDER_ID = #{search_keyword}
+						AND TBL1.ORDER_ID = #{search_keyword}
 					</if>
 					<if test="search_field == 'email'">
-						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+						AND TBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
 					</if>
 					<if test="search_field == 'writer'">
-						AND ETBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
+						AND TBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
 					</if>
 					<if test="search_field == 'date'">
-						AND DATE_FORMAT(ETBL1.START_DATE,'%Y-%m') = #{search_keyword}
+						AND DATE_FORMAT(TBL1.START_DATE,'%Y-%m') = #{search_keyword}
 					</if>
 				</if>
-        UNION ALL
-		 	SELECT 
-		 		2 as TYPE_ID
-				, RTBL1.ORDER_ID
-				, DATE_FORMAT(RTBL1.START_DATE,'%m-%d-%Y') AS DATE
-				, DATE_FORMAT(RTBL1.END_DATE,'%m-%d-%Y') AS END_DATE
-				, DATE_FORMAT(RTBL1.DATE_MODIFIED,'%m-%d-%Y') AS DATE_MODIFIED
-				, RTBL1.TOTAL_PAYMENT
-				, RTBL1.USER_ID
-	            , RTBL1.RESULT
-	            , RTBL1.TOPIC
-				, RTBL2.NAME AS USER_NAME
-				, RTBL2.EMAIL AS USER_EMAIL
-				, RTBL3.NAME AS MANAGER_ID
-				, RTBL4.NAME AS WRITER_ID
-				, RTBL5.REFUNDED AS REFUNDED
-			FROM
-				TBLREVISION RTBL1
-				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
-				LEFT JOIN TBLUSERS RTBL3 ON RTBL1.MANAGER_ID = RTBL3.USER_ID
-				LEFT JOIN TBLUSERS RTBL4 ON RTBL1.WRITER_ID = RTBL4.USER_ID
-				LEFT JOIN TBLORDER RTBL5 ON RTBL1.ORDER_ID = RTBL5.ORDER_ID
-			WHERE
-				RTBL1.STATUS = 3
-				AND RTBL1.VALID_FLAG = 1
-				<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND RTBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
-					<if test="search_field == 'writer'">
-						AND RTBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
-					<if test="search_field == 'date'">
-						AND DATE_FORMAT(RTBL1.START_DATE,'%Y-%m') = #{search_keyword}
-					</if>
-				</if>
-		) A
 	</select>
 	
 	<select id="getList" parameterType="OrderComplete" resultType="OrderComplete">
-		SELECT * FROM
-			(SELECT 
-				1 as TYPE_ID
-				, ETBL1.ORDER_ID
-				, DATE_FORMAT(ETBL1.START_DATE,'%m-%d-%Y') AS DATE
-				, DATE_FORMAT(ETBL1.END_DATE,'%m-%d-%Y') AS END_DATE
-				, DATE_FORMAT(ETBL1.DATE_MODIFIED,'%m-%d-%Y') AS DATE_MODIFIED
-				, ETBL1.TOTAL_PAYMENT
-				, ETBL1.USER_ID
-	            , ETBL1.RESULT
-	            , ETBL1.TOPIC
-				, ETBL2.NAME AS USER_NAME
-				, ETBL2.EMAIL AS USER_EMAIL
-				, ETBL3.NAME AS MANAGER_ID
-				, ETBL4.NAME AS WRITER_ID
-				, ETBL5.REFUNDED AS REFUNDED
+		SELECT
+			TBL1.ORDER_ID
+			, TBL1.TYPE_ID
+			, TBL1.USER_ID
+			, DATE_FORMAT(TBL1.START_DATE, '%m-%d-%Y') as DATE
+			, DATE_FORMAT(TBL1.END_DATE,'%m-%d-%Y') AS END_DATE
+			, DATE_FORMAT(TBL1.DATE_MODIFIED,'%m-%d-%Y') AS DATE_MODIFIED
+			, TBL1.TOTAL_PAYMENT
+			, TBL1.REFUNDED
+			, TBL2.NAME AS USER_NAME
+			, TBL2.EMAIL AS USER_EMAIL
+			, TBL3.NAME AS MANAGER_ID
+			, TBL4.NAME AS WRITER_ID
+			, COALESCE(TBL5.RESULT, TBL6.RESULT) AS RESULT
 			FROM
-				TBLESSAY ETBL1
-				LEFT JOIN TBLUSERS ETBL2 ON ETBL1.USER_ID = ETBL2.USER_ID
-				LEFT JOIN TBLUSERS ETBL3 ON ETBL1.MANAGER_ID = ETBL3.USER_ID
-				LEFT JOIN TBLUSERS ETBL4 ON ETBL1.WRITER_ID = ETBL4.USER_ID
-				LEFT JOIN TBLORDER ETBL5 ON ETBL1.ORDER_ID = ETBL5.ORDER_ID
+				TBLORDER TBL1
+				LEFT JOIN TBLUSERS TBL2 ON TBL1.USER_ID = TBL2.USER_ID
+				LEFT JOIN TBLUSERS TBL3 ON TBL1.MANAGER_ID = TBL3.USER_ID
+				LEFT JOIN TBLUSERS TBL4 ON TBL1.WRITER_ID = TBL4.USER_ID
+				LEFT JOIN TBLESSAY TBL5 ON TBL1.ORDER_ID = TBL5.ORDER_ID
+				LEFT JOIN TBLREVISION TBL6 ON TBL1.ORDER_ID = TBL6.ORDER_ID
 			WHERE
-				ETBL1.STATUS = 3
-				AND ETBL1.VALID_FLAG = 1
+				TBL1.STATUS = 3
+				AND TBL1.VALID_FLAG = 1
         		<if test="!isEmpty(search_keyword)">
 					<if test="search_field == 'order_id'">
-						AND ETBL1.ORDER_ID = #{search_keyword}
+						AND TBL1.ORDER_ID = #{search_keyword}
 					</if>
 					<if test="search_field == 'email'">
-						AND ETBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
+						AND TBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
 					</if>
 					<if test="search_field == 'writer'">
-						AND ETBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
+						AND TBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
 					</if>
 					<if test="search_field == 'date'">
-						AND DATE_FORMAT(ETBL1.START_DATE,'%Y-%m') = #{search_keyword}
+						AND DATE_FORMAT(TBL1.START_DATE,'%Y-%m') = #{search_keyword}
 					</if>
 				</if>
-        UNION ALL
-		 	SELECT 
-		 		2 as TYPE_ID
-				, RTBL1.ORDER_ID
-				, DATE_FORMAT(RTBL1.START_DATE,'%m-%d-%Y') AS DATE
-				, DATE_FORMAT(RTBL1.END_DATE,'%m-%d-%Y') AS END_DATE
-				, DATE_FORMAT(RTBL1.DATE_MODIFIED,'%m-%d-%Y') AS DATE_MODIFIED
-				, RTBL1.TOTAL_PAYMENT
-				, RTBL1.USER_ID
-	            , RTBL1.RESULT
-	            , RTBL1.TOPIC
-				, RTBL2.NAME AS USER_NAME
-				, RTBL2.EMAIL AS USER_EMAIL
-				, RTBL3.NAME AS MANAGER_ID
-				, RTBL4.NAME AS WRITER_ID
-				, RTBL5.REFUNDED AS REFUNDED
-			FROM
-				TBLREVISION RTBL1
-				LEFT JOIN TBLUSERS RTBL2 ON RTBL1.USER_ID = RTBL2.USER_ID
-				LEFT JOIN TBLUSERS RTBL3 ON RTBL1.MANAGER_ID = RTBL3.USER_ID
-				LEFT JOIN TBLUSERS RTBL4 ON RTBL1.WRITER_ID = RTBL4.USER_ID
-				LEFT JOIN TBLORDER RTBL5 ON RTBL1.ORDER_ID = RTBL5.ORDER_ID
-			WHERE
-				RTBL1.STATUS = 3
-				AND RTBL1.VALID_FLAG = 1
-				<if test="!isEmpty(search_keyword)">
-					<if test="search_field == 'order_id'">
-						AND RTBL1.ORDER_ID = #{search_keyword}
-					</if>
-					<if test="search_field == 'email'">
-						AND RTBL2.EMAIL LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
-					<if test="search_field == 'writer'">
-						AND RTBL4.NAME LIKE CONCAT('%', #{search_keyword}, '%')
-					</if>
-					<if test="search_field == 'date'">
-						AND DATE_FORMAT(RTBL1.START_DATE,'%Y-%m') = #{search_keyword}
-					</if>
-				</if>
-		) A
-		ORDER BY DATE DESC
+        
+		ORDER BY TBL1.DATE DESC
 		<if test='page_use_at == "Y"'>
 			LIMIT ${record_count_per_page} OFFSET ${first_index}
 		</if>

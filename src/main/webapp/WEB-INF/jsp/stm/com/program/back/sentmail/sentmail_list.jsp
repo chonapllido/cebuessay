@@ -55,7 +55,7 @@
 		<tr>
 			<td><input type="checkbox" name="id_checks" value="${row.item_id }"/></td>
 			<td>${i.index+1 }</td>
-			<td>${row.email }></td>
+			<td>${row.email }</td>
 			<td>${row.name }</td>
 			<td><a href="view.do?item_id=${row.item_id }">${row.subject }</a></td>
 			<td>${row.date }</td>
